@@ -1,25 +1,38 @@
-#include "SFML\Graphics.hpp"
+#include <SFML/Graphics.hpp>
+#include "Block.h"
+#include "Board.h"
+#include <time.h>
+
+using namespace std;
 using namespace sf;
 
 int main()
 {
-	//Creates an object of the window class. VideoMode sets the dimensions of the window.
-	RenderWindow window(VideoMode(640, 840), "Baby's first window");
+	/*Creating game objects*/
+	Block Tetrominos;
+	Board GameBoard;
 
-	//This is the render/game loop. isOpen will return true if the window's state is currently open.
-	while (window.isOpen())
+	srand(time(0));
+	RenderWindow gameWindow(VideoMode(GameBoard.GetBoardWidth()*Tetrominos.GetCellSize(), GameBoard.GetBoardHeight()*Tetrominos.GetCellSize()), "Tetris");
+	RectangleShape cell(Vector2f(25, 25));
+	Tetrominos.CreateNewBlock();
+
+	while (gameWindow.isOpen())
 	{
-		Event event; //Creating an event object
+		Event gameEvent;
 
-		//Event processing loop. pollEvent will return true as long as there was an unprocessed event. False if none.
-		while (window.pollEvent(event))
+		if (gameWindow.pollEvent(gameEvent))
 		{
-			//If the user closes the window
-			if (event.type == Event::Closed)
-				window.close(); //Set the window object to closed as well.
-		}
-	}
+			if (gameEvent.type == Event::Closed)
+				gameWindow.close();
 
+			if (gameEvent.type == Keyboard::Space)
+				Tetrominos.CreateNewBlock();
+		}
+
+		Tetrominos.DrawBlock(gameWindow, cell);
+		gameWindow.display();
+	}
 
 	return 0;
 }
