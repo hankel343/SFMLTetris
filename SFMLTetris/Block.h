@@ -13,9 +13,11 @@ class Block
 {
 private:
 	int nCellSize = 25;
-	int nBlockType;	//Stores the integer code for each tetromino.
-	int nPosx; //Current x position of block
-	int nPosy; //Current y position of block
+	const int nBoardWidth = 10;
+	const int nBoardHeight = 20;
+	int nBlockType = 0;	//Stores the integer code for each tetromino.
+	int nPosx = 5; //Current x position of block
+	int nPosy = 0; //Current y position of block
 	int tetrominos[7][4][4] =
 	{
 		//I block
@@ -65,9 +67,12 @@ public:
 
 	void CreateNewBlock();
 	void CreateCell();
-	int GetCellSize();
 	void DrawBlock(sf::RenderWindow &window, sf::RectangleShape &cell);
-
+	void MoveBlockLeft();
+	void MoveBlockRight();
+	void MoveBlockDown();
+	void MoveBlockUp();
+	bool DoesBlockFit();
 
 };
 
