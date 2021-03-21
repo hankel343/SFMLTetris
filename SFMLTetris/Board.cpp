@@ -2,10 +2,11 @@
 
 Board::Board()
 {
-	//Scans through the PlayField array and sets all locations equal to 0.
-	//0 represents an empty space in the playfield.
-	for (int i = 0; i < nBOARD_HEIGHT; i++) for (int i = 0; i < nBOARD_WIDTH; i++)
-		PlayField[nBOARD_HEIGHT][nBOARD_WIDTH] = 0;
+	for (int y = 0; y < nBOARD_HEIGHT; y++)
+		for (int x = 0; x < nBOARD_WIDTH; x++)
+		{
+			PlayField[y][x] = 0;
+		}
 }
 
 int Board::GetBoardWidth() const
@@ -16,4 +17,28 @@ int Board::GetBoardWidth() const
 int Board::GetBoardHeight() const
 {
 	return nBOARD_HEIGHT;
+}
+
+void Board::CopyBlockToBoard(Block& Tetromino)
+{
+	for (int y = 0; y < 4; y++)
+		for (int x = 0; x < 4; x++)
+		{
+			if (Tetromino.tetrominos[Tetromino.GetBlockType()][y][x])
+				PlayField[Tetromino.GetY() + y][Tetromino.GetX() + x] = Tetromino.GetBlockType() + 1;
+		}
+}
+
+void Board::DisplayField(sf::RenderWindow &window, Block &Tetromino, sf::RectangleShape &cell) const
+{
+	for (int y = 0; y < nBOARD_HEIGHT; y++)
+		for (int x = 0; x < nBOARD_WIDTH; x++)
+		{
+			if (PlayField[y][x])
+			{
+				cell.setFillColor(Tetromino.GetColor(PlayField[y][x] - 1));
+				cell.setPosition(sf::Vector2f(x * Tetromino.GetCellSize(), y * Tetromino.GetCellSize()));
+				window.draw(cell);
+			}
+		}
 }
