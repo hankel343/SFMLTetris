@@ -1,6 +1,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 #include <SFML\Graphics.hpp>
+#include <SFML\Audio.hpp>
 #include "Block.h"
 
 
@@ -19,6 +20,8 @@ public:
 	void CopyBlockToBoard(Block &Tetromino);
 	void DisplayField(sf::RenderWindow &window, Block &tetromino, sf::RectangleShape &cell) const;
 	bool DoesBlockFit(Block& Tetromino);
+	bool PushDown(Block& Tetromino);
+	void RemoveLine();
 };
 
 #endif BOARD_H

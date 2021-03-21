@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Block.h"
 #include "Board.h"
 #include <time.h>
@@ -17,7 +18,18 @@ int main()
 	RectangleShape cell(Vector2f(25, 25));
 	Clock clock;
 
-	//Creates first block pseudo-randomly:
+	/*Plays Tetris theme on repeat*/
+	Music Theme;
+	Theme.openFromFile("Tetris.ogg");
+	Theme.setVolume(100);
+	Theme.setLoop(true);
+	Theme.play();
+
+	/*Sound buffer for temporary sound effects*/
+	SoundBuffer sBuffer;
+	Sound gameSound;
+
+	/*Game logic identifiers*/
 	Tetromino.CreateNewBlock();
 
 	while (gameWindow.isOpen())
@@ -26,15 +38,14 @@ int main()
 		if (clock.getElapsedTime().asSeconds() - prev >= 0.5)
 		{
 			prev = clock.getElapsedTime().asSeconds();
-
-			Tetromino.MoveBlockDown();
-			if (GameBoard.DoesBlockFit(Tetromino) == false)
+			if (GameBoard.PushDown(Tetromino) == false)
 			{
-				Tetromino.MoveBlockUp();
-				GameBoard.CopyBlockToBoard(Tetromino);
-				Tetromino.CreateNewBlock();
+				sBuffer.loadFromFile("piece_placed.ogg");
+				gameSound.setBuffer(sBuffer);
+				gameSound.play();
 			}
 		}
+
 		Event gameEvent;
 
 		/*Process user input and game events*/
@@ -47,7 +58,8 @@ int main()
 			{
 				switch (gameEvent.key.code)
 				{
-				case Keyboard::Left:	Tetromino.MoveBlockLeft();
+				case Keyboard::Left:	
+										Tetromino.MoveBlockLeft();
 										if (GameBoard.DoesBlockFit(Tetromino) == false)
 											Tetromino.MoveBlockRight();
 										break;
@@ -57,16 +69,23 @@ int main()
 											Tetromino.MoveBlockLeft();
 										break;
 
-				case Keyboard::Down:	Tetromino.MoveBlockDown();
-										if (GameBoard.DoesBlockFit(Tetromino) == false)
+				case Keyboard::Down:	if (GameBoard.PushDown(Tetromino) == false)
 										{
-											Tetromino.MoveBlockUp();
-											GameBoard.CopyBlockToBoard(Tetromino);
-											Tetromino.CreateNewBlock();
+											sBuffer.loadFromFile("piece_placed.ogg");
+											gameSound.setBuffer(sBuffer);
+											gameSound.play();
 										}
 										break;
-
+				
+				//Rotate block:
 				case Keyboard::Up:		Tetromino.Rotate();
+										sBuffer.loadFromFile("move.ogg");
+										gameSound.setBuffer(sBuffer);
+										gameSound.play();
+										break;
+				
+				//Drop block
+				case Keyboard::Space:	while (GameBoard.PushDown(Tetromino) == true);
 										break;
 				}
 			}

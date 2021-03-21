@@ -52,11 +52,56 @@ bool Board::DoesBlockFit(Block& Tetromino)
 				continue;
 
 			if (Tetromino.GetX() + x < 0 || Tetromino.GetX() + x >= 10 || Tetromino.GetY() + y >= 20)
+			{
 				return false;
+			}
 
 			if (PlayField[Tetromino.GetY() + y][Tetromino.GetX() + x])
+			{
 				return false;
+			}
 		}
 
 	return true;
+}
+
+bool Board::PushDown(Block& Tetromino)
+{
+	Tetromino.MoveBlockDown();
+	if (this->DoesBlockFit(Tetromino) == false)
+	{
+		Tetromino.MoveBlockUp();
+		this->CopyBlockToBoard(Tetromino);
+		this->RemoveLine();
+		Tetromino.CreateNewBlock();
+		return false;
+	}
+
+	return true;
+}
+
+void Board::RemoveLine()
+{
+	int nTo = nBOARD_HEIGHT - 1;
+	//Starting at bottom working to the top of the playfield
+	for (int nFrom = nBOARD_HEIGHT - 1; nFrom >= 0; nFrom--)
+	{
+		int nCount = 0;
+		//Scanning along the width of the board counting non-zero elements of the playfield...
+		for (int x = 0; x < nBOARD_WIDTH; x++)
+			if (PlayField[nFrom][x])
+				nCount++;
+
+		//If nCount is less than nBOARD_WIDTH, meaning an incomplete line was found -
+		//the line will be copied to the the new array and will remain in the playfield
+		if (nCount < nBOARD_WIDTH)
+		{
+			for (int x = 0; x < nBOARD_WIDTH; x++)
+				PlayField[nTo][x] = PlayField[nFrom][x];
+			nTo--;
+		}
+
+		//If nCount was equal to nBOARD_WIDTH, a complete line was found and it is not copied -
+		//to the updated playfield meaning it is deleted.
+	}
 }
