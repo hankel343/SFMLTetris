@@ -15,12 +15,26 @@ int main()
 	Board GameBoard;
 	RenderWindow gameWindow(VideoMode(250, 500), "Tetris");
 	RectangleShape cell(Vector2f(25, 25));
+	Clock clock;
 
 	//Creates first block pseudo-randomly:
 	Tetromino.CreateNewBlock();
 
 	while (gameWindow.isOpen())
 	{
+		static float prev = clock.getElapsedTime().asSeconds();
+		if (clock.getElapsedTime().asSeconds() - prev >= 0.5)
+		{
+			prev = clock.getElapsedTime().asSeconds();
+
+			Tetromino.MoveBlockDown();
+			if (GameBoard.DoesBlockFit(Tetromino) == false)
+			{
+				Tetromino.MoveBlockUp();
+				GameBoard.CopyBlockToBoard(Tetromino);
+				Tetromino.CreateNewBlock();
+			}
+		}
 		Event gameEvent;
 
 		/*Process user input and game events*/
@@ -34,24 +48,26 @@ int main()
 				switch (gameEvent.key.code)
 				{
 				case Keyboard::Left:	Tetromino.MoveBlockLeft();
-										if (Tetromino.DoesBlockFit() == false)
+										if (GameBoard.DoesBlockFit(Tetromino) == false)
 											Tetromino.MoveBlockRight();
 										break;
 
 				case Keyboard::Right:	Tetromino.MoveBlockRight();
-										if (Tetromino.DoesBlockFit() == false)
+										if (GameBoard.DoesBlockFit(Tetromino) == false)
 											Tetromino.MoveBlockLeft();
 										break;
 
 				case Keyboard::Down:	Tetromino.MoveBlockDown();
-										if (Tetromino.DoesBlockFit() == false)
+										if (GameBoard.DoesBlockFit(Tetromino) == false)
 										{
 											Tetromino.MoveBlockUp();
 											GameBoard.CopyBlockToBoard(Tetromino);
 											Tetromino.CreateNewBlock();
 										}
 										break;
-										
+
+				case Keyboard::Up:		Tetromino.Rotate();
+										break;
 				}
 			}
 				

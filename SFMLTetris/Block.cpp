@@ -40,21 +40,6 @@ void Block::MoveBlockUp()
 	nPosy--;
 }
 
-bool Block::DoesBlockFit()
-{
-	for (int y = 0; y < 4; y++)
-		for (int x = 0; x < 4; x++)
-		{
-			if (tetrominos[nBlockType][y][x] == 0) 
-				continue;
-
-			if (nPosx + x < 0 || nPosx + x >= 10 || nPosy + y >= 20) 
-				return false;
-		}
-
-	return true;
-}
-
 int Block::GetBlockType()
 {
 	return nBlockType;
@@ -89,4 +74,33 @@ sf::Color Block::GetColor(int nType)
 int Block::GetCellSize()
 {
 	return nCellSize;
+}
+
+void Block::Rotate()
+{
+	int nLength = 0; //Tracks block size
+	for (int y = 0; y < 4; y++)
+		for (int x = 0; x < 4; x++)
+		{
+			if (tetrominos[nBlockType][y][x])
+				nLength = std::max(std::max(x, y) + 1, nLength);
+		}
+
+	int temp[4][4] = { 0 };
+	//Rotate counter-clockwise 90 degrees
+	for (int y = 0; y < nLength; y++)
+		for (int x = 0; x < nLength; x++)
+		{
+			//If non-zero element in tetrominos array, copy to temp array rotated 90 degrees.
+			if (tetrominos[nBlockType][y][x])
+				temp[nLength - 1 - x][y] = 1;
+		}
+
+	//Copy rotated block from temp array back to tetrominos array in new rotated position.
+	for (int y = 0; y < 4; y++)
+		for (int x = 0; x < 4; x++)
+		{
+			tetrominos[nBlockType][y][x] = temp[y][x];
+		}
+			
 }

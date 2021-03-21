@@ -42,3 +42,21 @@ void Board::DisplayField(sf::RenderWindow &window, Block &Tetromino, sf::Rectang
 			}
 		}
 }
+
+bool Board::DoesBlockFit(Block& Tetromino)
+{
+	for (int y = 0; y < 4; y++)
+		for (int x = 0; x < 4; x++)
+		{
+			if (Tetromino.tetrominos[Tetromino.GetBlockType()][y][x] == 0)
+				continue;
+
+			if (Tetromino.GetX() + x < 0 || Tetromino.GetX() + x >= 10 || Tetromino.GetY() + y >= 20)
+				return false;
+
+			if (PlayField[Tetromino.GetY() + y][Tetromino.GetX() + x])
+				return false;
+		}
+
+	return true;
+}

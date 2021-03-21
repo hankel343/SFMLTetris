@@ -18,7 +18,7 @@ public:
 	int GetBoardHeight() const;
 	void CopyBlockToBoard(Block &Tetromino);
 	void DisplayField(sf::RenderWindow &window, Block &tetromino, sf::RectangleShape &cell) const;
-
+	bool DoesBlockFit(Block& Tetromino);
 };
 
 #endif BOARD_H

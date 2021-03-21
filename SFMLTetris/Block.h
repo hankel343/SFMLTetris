@@ -1,6 +1,7 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 #include <cstdlib>
+#include <iostream>
 #include <SFML\Graphics.hpp>
 
 class Block
@@ -21,12 +22,12 @@ public:
 	void MoveBlockRight();
 	void MoveBlockDown();
 	void MoveBlockUp();
-	bool DoesBlockFit();
 	int GetBlockType();
 	int GetX();
 	int GetY();
 	sf::Color GetColor(int nType);
 	int GetCellSize();
+	void Rotate();
 
 	int tetrominos[7][4][4] =
 	{
