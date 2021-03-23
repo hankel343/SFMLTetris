@@ -11,13 +11,17 @@ Tetris::Tetris()
 
 void Tetris::Start()
 {
+	bGameOver = false;
 	InitializeVertexArray();
 	Theme.play();
 	Tetromino.CreateNewBlock();
 
-	while (gameWindow.isOpen())
+	while (bGameOver == false)
 	{
 		GameTick();
+
+		if (bGameOver)
+			GameOver();
 
 		if (gameWindow.pollEvent(gameEvent))
 			ProcessGameEvent();
@@ -89,7 +93,7 @@ void Tetris::GameTick()
 		if (GameBoard.PushDown(bLineRemoved, Tetromino) == false)
 		{
 			if (Tetromino.GetY() == 0 && GameBoard.PushDown(bLineRemoved, Tetromino) == false)
-				GameOver();
+				bGameOver = true;
 
 			sBuffer.loadFromFile("piece_placed.ogg");
 			gameSound.setBuffer(sBuffer);
@@ -121,5 +125,11 @@ void Tetris::InitializeVertexArray()
 void Tetris::GameOver()
 {
 	std::cout << "Game over!!!\n";
+	Theme.stop();
+	sBuffer.loadFromFile("gameOver.ogg");
+	gameSound.setBuffer(sBuffer);
+	gameSound.play();
+	std::cout << "Press any key to continue.\n";
+	std::cin.get();
 	gameWindow.close();
 }

@@ -21,6 +21,7 @@ private:
 	Event gameEvent;
 	VertexArray Lines;
 	bool bLineRemoved = false;
+	bool bGameOver = false;
 
 public:
 	Tetris();
