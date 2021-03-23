@@ -28,6 +28,7 @@ public:
 	void ProcessGameEvent();
 	void GameTick();
 	void InitializeVertexArray();
+	void GameOver();
 };
 
 #endif TETRIS_H

@@ -88,6 +88,9 @@ void Tetris::GameTick()
 		prev = clock.getElapsedTime().asSeconds();
 		if (GameBoard.PushDown(bLineRemoved, Tetromino) == false)
 		{
+			if (Tetromino.GetY() == 0 && GameBoard.PushDown(bLineRemoved, Tetromino) == false)
+				GameOver();
+
 			sBuffer.loadFromFile("piece_placed.ogg");
 			gameSound.setBuffer(sBuffer);
 			gameSound.play();
@@ -113,4 +116,10 @@ void Tetris::InitializeVertexArray()
 	Lines[2].color = Color::Blue;
 	Lines[3].position = Vector2f(0, 500);
 	Lines[3].color = Color::Blue;
+}
+
+void Tetris::GameOver()
+{
+	std::cout << "Game over!!!\n";
+	gameWindow.close();
 }
