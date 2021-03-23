@@ -82,14 +82,14 @@ bool Board::PushDown(Block& Tetromino)
 
 void Board::RemoveLine()
 {
-	int nTo = nBOARD_HEIGHT - 1;
+	int nNew = nBOARD_HEIGHT - 1;
 	//Starting at bottom working to the top of the playfield
-	for (int nFrom = nBOARD_HEIGHT - 1; nFrom >= 0; nFrom--)
+	for (int nOld = nBOARD_HEIGHT - 1; nOld >= 0; nOld--)
 	{
 		int nCount = 0;
 		//Scanning along the width of the board counting non-zero elements of the playfield...
 		for (int x = 0; x < nBOARD_WIDTH; x++)
-			if (PlayField[nFrom][x])
+			if (PlayField[nOld][x])
 				nCount++;
 
 		//If nCount is less than nBOARD_WIDTH, meaning an incomplete line was found -
@@ -97,8 +97,8 @@ void Board::RemoveLine()
 		if (nCount < nBOARD_WIDTH)
 		{
 			for (int x = 0; x < nBOARD_WIDTH; x++)
-				PlayField[nTo][x] = PlayField[nFrom][x];
-			nTo--;
+				PlayField[nNew][x] = PlayField[nOld][x];
+			nNew--;
 		}
 
 		//If nCount was equal to nBOARD_WIDTH, a complete line was found and it is not copied -

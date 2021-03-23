@@ -3,19 +3,19 @@
 void Block::CreateNewBlock()
 {
 	nBlockType = std::rand() % 7;
-	nPosx = nBoardWidth / 2; //Corresponds to the middle of the game board.
+	nPosx = nBoardWidth / 2; //Middle of the game board x-axis.
 	nPosy = 0; //Board Height
 }
 
 void Block::DrawBlock(sf::RenderWindow &window, sf::RectangleShape &cell)
 {
 	//Color of cell is set according to the current type.
-	cell.setFillColor(this->GetColor(this->GetBlockType()));
+	cell.setFillColor(this->GetColor(nBlockType));
 	
 	for (int y = 0; y < 4; y++) for (int x = 0; x < 4; x++)
-		if (tetrominos[nBlockType][y][x]) //If a 0 is not found in the tetrominos array at the given coordinates
+		if (tetrominos[nBlockType][y][x]) //If a non-zero element is found in the tetrominos array at the given coordinates
 		{
-			cell.setPosition(sf::Vector2f((nPosx + x)*nCellSize, (nPosy + y)*nCellSize));
+			cell.setPosition(sf::Vector2f((nPosx + x) * nCellSize, (nPosy + y) * nCellSize));
 			window.draw(cell);
 		}
 }
