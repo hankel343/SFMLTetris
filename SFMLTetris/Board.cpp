@@ -65,14 +65,14 @@ bool Board::DoesBlockFit(Block& Tetromino)
 	return true;
 }
 
-bool Board::PushDown(Block& Tetromino)
+bool Board::PushDown(bool& bLineRemoved, Block& Tetromino)
 {
 	Tetromino.MoveBlockDown();
 	if (this->DoesBlockFit(Tetromino) == false)
 	{
 		Tetromino.MoveBlockUp();
 		this->CopyBlockToBoard(Tetromino);
-		this->RemoveLine();
+		this->RemoveLine(bLineRemoved);
 		Tetromino.CreateNewBlock();
 		return false;
 	}
@@ -80,7 +80,7 @@ bool Board::PushDown(Block& Tetromino)
 	return true;
 }
 
-void Board::RemoveLine()
+void Board::RemoveLine(bool& bLineRemoved)
 {
 	int nNew = nBOARD_HEIGHT - 1;
 	//Starting at bottom working to the top of the playfield
@@ -99,6 +99,8 @@ void Board::RemoveLine()
 			for (int x = 0; x < nBOARD_WIDTH; x++)
 				PlayField[nNew][x] = PlayField[nOld][x];
 			nNew--;
+		} else if (nCount == nBOARD_WIDTH) {
+			bLineRemoved = true;
 		}
 
 		//If nCount was equal to nBOARD_WIDTH, a complete line was found and it is not copied -

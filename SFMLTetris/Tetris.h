@@ -20,8 +20,7 @@ private:
 	Sound gameSound;
 	Event gameEvent;
 	VertexArray Lines;
-	
-
+	bool bLineRemoved = false;
 
 public:
 	Tetris();

@@ -14,6 +14,7 @@ void Tetris::Start()
 	InitializeVertexArray();
 	Theme.play();
 	Tetromino.CreateNewBlock();
+
 	while (gameWindow.isOpen())
 	{
 		GameTick();
@@ -47,11 +48,19 @@ void Tetris::ProcessGameEvent()
 									Tetromino.MoveBlockLeft();
 								break;
 
-		case Keyboard::Down:	if (GameBoard.PushDown(Tetromino) == false)
+		case Keyboard::Down:	if (GameBoard.PushDown(bLineRemoved, Tetromino) == false)
 								{
 									sBuffer.loadFromFile("piece_placed.ogg");
 									gameSound.setBuffer(sBuffer);
 									gameSound.play();
+
+									if (bLineRemoved)
+									{
+										sBuffer.loadFromFile("line_removed.ogg");
+										gameSound.setBuffer(sBuffer);
+										gameSound.play();
+										bLineRemoved = false;
+									}
 								}
 								break;
 
@@ -62,7 +71,7 @@ void Tetris::ProcessGameEvent()
 								break;
 
 		//Drop block
-		case Keyboard::Space:	while (GameBoard.PushDown(Tetromino) == true);
+		case Keyboard::Space:	while (GameBoard.PushDown(bLineRemoved, Tetromino) == true);
 								break;
 
 		//Exit game
@@ -77,11 +86,19 @@ void Tetris::GameTick()
 	if (clock.getElapsedTime().asSeconds() - prev >= 0.5)
 	{
 		prev = clock.getElapsedTime().asSeconds();
-		if (GameBoard.PushDown(Tetromino) == false)
+		if (GameBoard.PushDown(bLineRemoved, Tetromino) == false)
 		{
 			sBuffer.loadFromFile("piece_placed.ogg");
 			gameSound.setBuffer(sBuffer);
 			gameSound.play();
+
+			if (bLineRemoved)
+			{
+				sBuffer.loadFromFile("line_removed.ogg");
+				gameSound.setBuffer(sBuffer);
+				gameSound.play();
+				bLineRemoved = false;
+			}
 		}
 	}
 }

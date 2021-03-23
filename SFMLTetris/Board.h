@@ -20,8 +20,8 @@ public:
 	void CopyBlockToBoard(Block &Tetromino);
 	void DisplayField(sf::RenderWindow &window, Block &tetromino, sf::RectangleShape &cell) const;
 	bool DoesBlockFit(Block& Tetromino);
-	bool PushDown(Block& Tetromino);
-	void RemoveLine();
+	bool PushDown(bool& bLineRemoved, Block& Tetromino);
+	void RemoveLine(bool &bLineRemoved);
 };
 
 #endif BOARD_H
