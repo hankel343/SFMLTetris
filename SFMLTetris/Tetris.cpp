@@ -2,27 +2,18 @@
 
 //Constructor initializes the render window and cell used for drawing shapes on screen.
 Tetris::Tetris()
-	: gameWindow(sf::VideoMode(500, 750), "Tetris"), cell(sf::Vector2f(25, 25)), Lines(LineStrip, 4)
+	: gameWindow(sf::VideoMode(500, 750), "Tetris"), cell(sf::Vector2f(25, 25))
 {
-	//Loading font files
-	font.loadFromFile("Assets/Sounds/ChunkFive-Regular.otf");
-
-	windowText.setFont(font);
-	windowText.setCharacterSize(30);
-	windowText.setFillColor(Color::Red);
-	windowText.setStyle(Text::Regular);
 }
 
 void Tetris::Start()
 {
 	bGameOver = false;
-	InitializeVertexArray();
 	SoundManager.PlayMusic();
 	Tetromino.CreateNewBlock();
-
-	//Displaying text:
-	windowText.setString("UP");
-	windowText.setPosition(0, 550);
+	RenderManager.InitializeBorderVertexArray();
+	RenderManager.InitializeText(GameBoard.GetScore(), nLevel, GameBoard.GetLinesCleared());
+	RenderManager.LoadImages();
 
 	while (!bGameOver)
 	{
@@ -34,12 +25,9 @@ void Tetris::Start()
 		if (gameWindow.pollEvent(gameEvent))
 			ProcessGameEvent();
 
-		gameWindow.clear();
-		GameBoard.DisplayField(gameWindow, Tetromino, cell);
-		Tetromino.DrawBlock(gameWindow, cell);
-		gameWindow.draw(Lines);
-		gameWindow.draw(windowText);
-		gameWindow.display();
+		RenderManager.UpdateCounters(GameBoard.GetScore(), nLevel, GameBoard.GetLinesCleared());
+
+		DrawScreen();
 	}
 }
 
@@ -114,18 +102,6 @@ void Tetris::GameTick()
 	}
 }
 
-void Tetris::InitializeVertexArray()
-{
-	Lines[0].position = Vector2f(0, 0);
-	Lines[0].color = Color::Blue;
-	Lines[1].position = Vector2f(250, 0);
-	Lines[1].color = Color::Blue;
-	Lines[2].position = Vector2f(250, 500);
-	Lines[2].color = Color::Blue;
-	Lines[3].position = Vector2f(0, 500);
-	Lines[3].color = Color::Blue;
-}
-
 void Tetris::GameOver()
 {
 	std::cout << "Game over!!!\n";
@@ -138,13 +114,22 @@ void Tetris::GameOver()
 
 void Tetris::CheckDifficulty()
 {
-	nPieceCount++;
-	if (nPieceCount % 10 == 0 && nPieceCount >= 10)
+	if (GameBoard.GetLinesCleared() % 10 == 0 && GameBoard.GetLinesCleared() >= 10)
 	{
 		nLevel++;
-		fDifficulty -= .02;
+		fDifficulty -= .05;
 		SoundManager.AdjustTempo();
-
 		SoundManager.PlayLevelUp();
 	}
+}
+
+void Tetris::DrawScreen()
+{
+	gameWindow.clear();
+	GameBoard.DisplayField(gameWindow, Tetromino, cell);
+	Tetromino.DrawBlock(gameWindow, cell);
+	RenderManager.DrawBorder(gameWindow);
+	RenderManager.DrawText(gameWindow);
+	RenderManager.DrawSprites(gameWindow);
+	gameWindow.display();
 }

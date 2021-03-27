@@ -13,6 +13,7 @@ private:
 	static const int nBOARD_HEIGHT = 20;
 	int PlayField[nBOARD_HEIGHT][nBOARD_WIDTH];
 	int nScore = 0;
+	int nLinesCleared = 0;
 
 public:
 	Board();
@@ -24,6 +25,8 @@ public:
 	bool PushDown(bool& bLineRemoved, Block& Tetromino);
 	void RemoveLine(bool &bLineRemoved);
 	void CalcScoreIncrease(int nLinesRemoved);
+	int GetScore();
+	int GetLinesCleared();
 };
 
 #endif BOARD_H

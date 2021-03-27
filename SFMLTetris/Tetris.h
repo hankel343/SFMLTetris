@@ -4,6 +4,7 @@
 #include "Block.h"
 #include "Board.h"
 #include "SoundManager.h"
+#include "RenderManager.h"
 
 using namespace sf;
 using namespace std;
@@ -17,10 +18,8 @@ private:
 	RectangleShape cell;
 	Clock clock;
 	SoundManager SoundManager;
+	RenderManager RenderManager;
 	Event gameEvent;
-	VertexArray Lines;
-	Font font;
-	Text windowText;
 	bool bLineRemoved = false;
 	bool bGameOver = false;
 	int nPieceCount = 0;
@@ -32,9 +31,9 @@ public:
 	void Start();
 	void ProcessGameEvent();
 	void GameTick();
-	void InitializeVertexArray();
 	void GameOver();
 	void CheckDifficulty();
+	void DrawScreen();
 };
 
 #endif TETRIS_H

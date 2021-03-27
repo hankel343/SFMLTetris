@@ -70,6 +70,7 @@ bool Board::PushDown(bool& bLineRemoved, Block& Tetromino)
 	Tetromino.MoveBlockDown();
 	if (this->DoesBlockFit(Tetromino) == false)
 	{
+		nScore += 25; //25pts for placing a block.
 		Tetromino.MoveBlockUp();
 		this->CopyBlockToBoard(Tetromino);
 		this->RemoveLine(bLineRemoved);
@@ -109,10 +110,29 @@ void Board::RemoveLine(bool& bLineRemoved)
 		//to the updated playfield meaning it is deleted.
 	}
 
-	CalcScoreIncrease(nLinesRemoved);
+	if (nLinesRemoved > 0)
+		CalcScoreIncrease(nLinesRemoved);
 }
 
 void Board::CalcScoreIncrease(int nLinesRemoved)
 {
+	int base = 1;
+	for (int i = 0; i < nLinesRemoved; i++)
+	{
+		nLinesCleared++;
+		base *= 2;
+	}
+		
 
+	nScore += base * 100;
+}
+
+int Board::GetScore()
+{
+	return nScore;
+}
+
+int Board::GetLinesCleared()
+{
+	return nLinesCleared;
 }
