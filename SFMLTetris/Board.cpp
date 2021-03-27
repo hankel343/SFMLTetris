@@ -82,6 +82,7 @@ bool Board::PushDown(bool& bLineRemoved, Block& Tetromino)
 
 void Board::RemoveLine(bool& bLineRemoved)
 {
+	int nLinesRemoved = 0;
 	int nNew = nBOARD_HEIGHT - 1;
 	//Starting at bottom working to the top of the playfield
 	for (int nOld = nBOARD_HEIGHT - 1; nOld >= 0; nOld--)
@@ -100,10 +101,18 @@ void Board::RemoveLine(bool& bLineRemoved)
 				PlayField[nNew][x] = PlayField[nOld][x];
 			nNew--;
 		} else if (nCount == nBOARD_WIDTH) {
+			nLinesRemoved++;
 			bLineRemoved = true;
 		}
 
 		//If nCount was equal to nBOARD_WIDTH, a complete line was found and it is not copied -
 		//to the updated playfield meaning it is deleted.
 	}
+
+	CalcScoreIncrease(nLinesRemoved);
+}
+
+void Board::CalcScoreIncrease(int nLinesRemoved)
+{
+
 }

@@ -4,19 +4,27 @@
 Tetris::Tetris()
 	: gameWindow(sf::VideoMode(500, 750), "Tetris"), cell(sf::Vector2f(25, 25)), Lines(LineStrip, 4)
 {
-	Theme.openFromFile("Tetris.ogg");
-	Theme.setVolume(50);
-	Theme.setLoop(true);
+	//Loading font files
+	font.loadFromFile("Assets/Sounds/ChunkFive-Regular.otf");
+
+	windowText.setFont(font);
+	windowText.setCharacterSize(30);
+	windowText.setFillColor(Color::Red);
+	windowText.setStyle(Text::Regular);
 }
 
 void Tetris::Start()
 {
 	bGameOver = false;
 	InitializeVertexArray();
-	Theme.play();
+	SoundManager.PlayMusic();
 	Tetromino.CreateNewBlock();
 
-	while (bGameOver == false)
+	//Displaying text:
+	windowText.setString("UP");
+	windowText.setPosition(0, 550);
+
+	while (!bGameOver)
 	{
 		GameTick();
 
@@ -30,6 +38,7 @@ void Tetris::Start()
 		GameBoard.DisplayField(gameWindow, Tetromino, cell);
 		Tetromino.DrawBlock(gameWindow, cell);
 		gameWindow.draw(Lines);
+		gameWindow.draw(windowText);
 		gameWindow.display();
 	}
 }
@@ -54,32 +63,29 @@ void Tetris::ProcessGameEvent()
 
 		case Keyboard::Down:	if (GameBoard.PushDown(bLineRemoved, Tetromino) == false)
 								{
-									sBuffer.loadFromFile("piece_placed.ogg");
-									gameSound.setBuffer(sBuffer);
-									gameSound.play();
+									CheckDifficulty();
+									SoundManager.PlayPlaceBlock();
 
 									if (bLineRemoved)
 									{
-										sBuffer.loadFromFile("line_removed.ogg");
-										gameSound.setBuffer(sBuffer);
-										gameSound.play();
+										SoundManager.PlayLineRemoved();
 										bLineRemoved = false;
 									}
 								}
 								break;
 
 		case Keyboard::Up:		Tetromino.Rotate();
-								sBuffer.loadFromFile("move.ogg");
-								gameSound.setBuffer(sBuffer);
-								gameSound.play();
+								SoundManager.PlayMove();
 								break;
 
 		//Drop block
 		case Keyboard::Space:	while (GameBoard.PushDown(bLineRemoved, Tetromino) == true);
+								CheckDifficulty();
+								SoundManager.PlayPlaceBlock();
 								break;
 
 		//Exit game
-		case Keyboard::Escape:	gameWindow.close();
+		case Keyboard::Escape:	bGameOver = true;
 								break;
 		}
 }
@@ -87,23 +93,21 @@ void Tetris::ProcessGameEvent()
 void Tetris::GameTick()
 {
 	static float prev = clock.getElapsedTime().asSeconds();
-	if (clock.getElapsedTime().asSeconds() - prev >= 0.5)
+	if (clock.getElapsedTime().asSeconds() - prev >= fDifficulty)
 	{
 		prev = clock.getElapsedTime().asSeconds();
 		if (GameBoard.PushDown(bLineRemoved, Tetromino) == false)
 		{
+			CheckDifficulty();
+
 			if (Tetromino.GetY() == 0 && GameBoard.PushDown(bLineRemoved, Tetromino) == false)
 				bGameOver = true;
 
-			sBuffer.loadFromFile("piece_placed.ogg");
-			gameSound.setBuffer(sBuffer);
-			gameSound.play();
+			SoundManager.PlayPlaceBlock();
 
 			if (bLineRemoved)
 			{
-				sBuffer.loadFromFile("line_removed.ogg");
-				gameSound.setBuffer(sBuffer);
-				gameSound.play();
+				SoundManager.PlayLineRemoved();
 				bLineRemoved = false;
 			}
 		}
@@ -125,11 +129,22 @@ void Tetris::InitializeVertexArray()
 void Tetris::GameOver()
 {
 	std::cout << "Game over!!!\n";
-	Theme.stop();
-	sBuffer.loadFromFile("gameOver.ogg");
-	gameSound.setBuffer(sBuffer);
-	gameSound.play();
+	SoundManager.StopMusic();
+	SoundManager.PlayGameOver();
 	std::cout << "Press any key to continue.\n";
 	std::cin.get();
 	gameWindow.close();
+}
+
+void Tetris::CheckDifficulty()
+{
+	nPieceCount++;
+	if (nPieceCount % 10 == 0 && nPieceCount >= 10)
+	{
+		nLevel++;
+		fDifficulty -= .02;
+		SoundManager.AdjustTempo();
+
+		SoundManager.PlayLevelUp();
+	}
 }

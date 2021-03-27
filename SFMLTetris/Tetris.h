@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "Block.h"
 #include "Board.h"
+#include "SoundManager.h"
 
 using namespace sf;
 using namespace std;
@@ -15,13 +16,16 @@ private:
 	RenderWindow gameWindow;
 	RectangleShape cell;
 	Clock clock;
-	Music Theme;
-	SoundBuffer sBuffer;
-	Sound gameSound;
+	SoundManager SoundManager;
 	Event gameEvent;
 	VertexArray Lines;
+	Font font;
+	Text windowText;
 	bool bLineRemoved = false;
 	bool bGameOver = false;
+	int nPieceCount = 0;
+	float fDifficulty = 0.5;
+	int nLevel = 0;
 
 public:
 	Tetris();
@@ -30,6 +34,7 @@ public:
 	void GameTick();
 	void InitializeVertexArray();
 	void GameOver();
+	void CheckDifficulty();
 };
 
 #endif TETRIS_H
