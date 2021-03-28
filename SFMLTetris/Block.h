@@ -12,13 +12,15 @@ private:
 	const int nBoardHeight = 20;
 	int nCurrentBlockType;	//Stores the integer code for each tetromino.
 	int nNextBlockType = 0;
+	int nHeldBlockType = -1;
+	int nPieceCount = 0;
 	int nPosx; //Current x position of block
 	int nPosy; //Current y position of block
 
 public:
 
 	void CreateNewBlock();
-	void DrawBlock(sf::RenderWindow &window, sf::RectangleShape &cell, sf::RectangleShape &nextCell);
+	void DrawBlock(sf::RenderWindow &window, sf::RectangleShape &cell, sf::RectangleShape &nextCell, sf::RectangleShape& heldCell);
 	void MoveBlockLeft();
 	void MoveBlockRight();
 	void MoveBlockDown();
@@ -29,6 +31,8 @@ public:
 	sf::Color GetColor(int nType);
 	int GetCellSize();
 	void Rotate();
+	void SwapBlocks(sf::RenderWindow& window, sf::RectangleShape& cell);
+	void RenderSwaped(sf::RenderWindow& window, int nType, sf::RectangleShape &cell);
 
 	int tetrominos[7][4][4] =
 	{

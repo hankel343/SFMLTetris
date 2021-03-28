@@ -72,6 +72,20 @@ void RenderManager::InitializeText(int nScore, int nLevel, int nLinesCleared)
 	std::string LinesStr = std::to_string(nLinesCleared);
 	t_LinesCleared.setString("Lines Cleared: " + LinesStr);
 	t_LinesCleared.setPosition(0, 700);
+
+	t_NextBlock.setFont(font);
+	t_NextBlock.setCharacterSize(30);
+	t_NextBlock.setFillColor(sf::Color::Red);
+	t_NextBlock.setStyle(sf::Text::Regular);
+	t_NextBlock.setString("Next Block:");
+	t_NextBlock.setPosition(250, 0);
+
+	t_HeldBlock.setFont(font);
+	t_HeldBlock.setCharacterSize(30);
+	t_HeldBlock.setFillColor(sf::Color::Red);
+	t_HeldBlock.setStyle(sf::Text::Regular);
+	t_HeldBlock.setString("Held Block:");
+	t_HeldBlock.setPosition(250, 150);
 }
 
 void RenderManager::UpdateCounters(int nScore, int nLevel, int nLinesCleared)
@@ -107,6 +121,8 @@ void RenderManager::DrawText(sf::RenderWindow& gameWindow)
 	gameWindow.draw(t_ScoreText);
 	gameWindow.draw(t_LevelText);
 	gameWindow.draw(t_LinesCleared);
+	gameWindow.draw(t_NextBlock);
+	gameWindow.draw(t_HeldBlock);
 }
 
 void RenderManager::DrawBorder(sf::RenderWindow& gameWindow)

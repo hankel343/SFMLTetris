@@ -2,7 +2,7 @@
 
 //Constructor initializes the render window and cell used for drawing shapes on screen.
 Tetris::Tetris()
-	: gameWindow(sf::VideoMode(500, 750), "Tetris"), cell(sf::Vector2f(25, 25)), nextCell(sf::Vector2f(25, 25))
+	: gameWindow(sf::VideoMode(500, 750), "Tetris"), currentCell(sf::Vector2f(25, 25)), nextCell(sf::Vector2f(25, 25)), heldCell(sf::Vector2f(25, 25))
 {
 }
 
@@ -29,6 +29,8 @@ void Tetris::Start()
 
 		DrawScreen();
 	}
+
+	gameWindow.close();
 }
 
 void Tetris::ProcessGameEvent()
@@ -49,7 +51,7 @@ void Tetris::ProcessGameEvent()
 									Tetromino.MoveBlockLeft();
 								break;
 
-		case Keyboard::Down:	if (GameBoard.PushDown(bLineRemoved, Tetromino) == false)
+		case Keyboard::Down:	if (GameBoard.PushDown(bLineRemoved, Tetromino, bLevelHold) == false)
 								{
 									CheckDifficulty();
 									SoundManager.PlayPlaceBlock();
@@ -67,9 +69,12 @@ void Tetris::ProcessGameEvent()
 								break;
 
 		//Drop block
-		case Keyboard::Space:	while (GameBoard.PushDown(bLineRemoved, Tetromino) == true);
+		case Keyboard::Space:	while (GameBoard.PushDown(bLineRemoved, Tetromino, bLevelHold) == true);
 								CheckDifficulty();
 								SoundManager.PlayPlaceBlock();
+								break;
+
+		case Keyboard::C:		Tetromino.SwapBlocks(gameWindow, currentCell);
 								break;
 
 		//Exit game
@@ -84,11 +89,11 @@ void Tetris::GameTick()
 	if (clock.getElapsedTime().asSeconds() - prev >= fDifficulty)
 	{
 		prev = clock.getElapsedTime().asSeconds();
-		if (GameBoard.PushDown(bLineRemoved, Tetromino) == false)
+		if (GameBoard.PushDown(bLineRemoved, Tetromino, bLevelHold) == false)
 		{
 			CheckDifficulty();
 
-			if (Tetromino.GetY() == 0 && GameBoard.PushDown(bLineRemoved, Tetromino) == false)
+			if (Tetromino.GetY() == 0 && GameBoard.PushDown(bLineRemoved, Tetromino, bLevelHold) == false)
 				bGameOver = true;
 
 			SoundManager.PlayPlaceBlock();
@@ -114,20 +119,21 @@ void Tetris::GameOver()
 
 void Tetris::CheckDifficulty()
 {
-	if (GameBoard.GetLinesCleared() % 10 == 0 && GameBoard.GetLinesCleared() >= 10)
+	if (GameBoard.GetLinesCleared() % 10 == 0 && GameBoard.GetLinesCleared() != 0 && !bLevelHold)
 	{
 		nLevel++;
 		fDifficulty -= .05;
 		SoundManager.AdjustTempo();
 		SoundManager.PlayLevelUp();
+		bLevelHold = true;
 	}
 }
 
 void Tetris::DrawScreen()
 {
 	gameWindow.clear();
-	GameBoard.DisplayField(gameWindow, Tetromino, cell);
-	Tetromino.DrawBlock(gameWindow, cell, nextCell);
+	GameBoard.DisplayField(gameWindow, Tetromino, currentCell);
+	Tetromino.DrawBlock(gameWindow, currentCell, nextCell, heldCell);
 	RenderManager.DrawBorder(gameWindow);
 	RenderManager.DrawText(gameWindow);
 	RenderManager.DrawSprites(gameWindow);

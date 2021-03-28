@@ -2,23 +2,41 @@
 
 void Block::CreateNewBlock()
 {
-	if (nNextBlockType == NULL)
+	if (nPieceCount == 0)
 	{
+		nPieceCount++;
 		nCurrentBlockType = std::rand() % 7;
 		nNextBlockType = std::rand() % 7;
 	} else {
+		nPieceCount++;
 		nCurrentBlockType = nNextBlockType;
 		nNextBlockType = std::rand() % 7;
 	}
+
 	nPosx = nBoardWidth / 2; //Middle of the game board x-axis.
 	nPosy = 0; //Board Height
 }
 
-void Block::DrawBlock(sf::RenderWindow &window, sf::RectangleShape &cell, sf::RectangleShape &nextCell)
+void Block::DrawBlock(sf::RenderWindow &window, sf::RectangleShape &cell, sf::RectangleShape &nextCell, sf::RectangleShape& heldCell)
 {
 	//Color of cells is set according to their current types.
 	cell.setFillColor(GetColor(nCurrentBlockType));
 	nextCell.setFillColor(GetColor(nNextBlockType));
+	
+	if (nHeldBlockType >= 0)
+	{
+		heldCell.setFillColor(GetColor(nHeldBlockType));
+
+		for (int y = 0; y < 4; y++) for (int x = 0; x < 4; x++)
+		{
+			if (tetrominos[nHeldBlockType][y][x])
+			{
+				heldCell.setPosition(sf::Vector2f((12 + x) * nCellSize, (y + 8) * nCellSize));
+				window.draw(heldCell);
+			}
+		}
+	}
+		
 	
 	for (int y = 0; y < 4; y++) for (int x = 0; x < 4; x++)
 		if (tetrominos[nCurrentBlockType][y][x]) //If a non-zero element is found in the tetrominos array at the given coordinates
@@ -30,7 +48,7 @@ void Block::DrawBlock(sf::RenderWindow &window, sf::RectangleShape &cell, sf::Re
 	for (int y = 0; y < 4; y++) for (int x = 0; x < 4; x++)
 		if (tetrominos[nNextBlockType][y][x])
 		{
-			nextCell.setPosition(sf::Vector2f((13+x)*nCellSize, (y+3)*nCellSize));
+			nextCell.setPosition(sf::Vector2f((12+x)*nCellSize, (y+2)*nCellSize));
 			window.draw(nextCell);
 		}
 }
@@ -116,6 +134,37 @@ void Block::Rotate()
 		for (int x = 0; x < 4; x++)
 		{
 			tetrominos[nCurrentBlockType][y][x] = temp[y][x];
+		}			
+}
+
+void Block::SwapBlocks(sf::RenderWindow& window, sf::RectangleShape &cell)
+{
+	if (nHeldBlockType < 0)
+	{
+		nHeldBlockType = nCurrentBlockType;
+		CreateNewBlock();
+	} else {
+		int nTemp = nHeldBlockType;
+		nHeldBlockType = nCurrentBlockType;
+		nCurrentBlockType = nTemp;
+
+		RenderSwaped(window, nCurrentBlockType, cell);
+	}
+}
+
+void Block::RenderSwaped(sf::RenderWindow& window, int nType, sf::RectangleShape &cell)
+{
+	nPosx = nBoardWidth / 2;
+	nPosy = 0;
+
+	cell.setFillColor(GetColor(nType));
+
+	for (int y = 0; y < 4; y++) for (int x = 0; x < 4; x++)
+	{
+		if (tetrominos[nType][y][x])
+		{
+			cell.setPosition(sf::Vector2f((nPosx + x) * nCellSize, (nPosy + y) * nCellSize));
+			window.draw(cell);
 		}
-			
+	}
 }

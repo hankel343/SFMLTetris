@@ -15,15 +15,16 @@ private:
 	Block Tetromino;
 	Board GameBoard;
 	RenderWindow gameWindow;
-	RectangleShape cell;
+	RectangleShape currentCell;
 	RectangleShape nextCell;
+	RectangleShape heldCell;
 	Clock clock;
 	SoundManager SoundManager;
 	RenderManager RenderManager;
 	Event gameEvent;
 	bool bLineRemoved = false;
 	bool bGameOver = false;
-	int nPieceCount = 0;
+	bool bLevelHold = false;
 	float fDifficulty = 0.5;
 	int nLevel = 0;
 

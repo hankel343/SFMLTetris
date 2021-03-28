@@ -22,9 +22,9 @@ public:
 	void CopyBlockToBoard(Block &Tetromino);
 	void DisplayField(sf::RenderWindow &window, Block &tetromino, sf::RectangleShape &cell) const;
 	bool DoesBlockFit(Block& Tetromino);
-	bool PushDown(bool& bLineRemoved, Block& Tetromino);
-	void RemoveLine(bool &bLineRemoved);
-	void CalcScoreIncrease(int nLinesRemoved);
+	bool PushDown(bool& bLineRemoved, Block& Tetromino, bool& bLevelHold);
+	void RemoveLine(bool &bLineRemoved, bool& bLevelHold);
+	void CalcScoreIncrease(int nLinesRemoved, bool& bLevelHold);
 	int GetScore();
 	int GetLinesCleared();
 };

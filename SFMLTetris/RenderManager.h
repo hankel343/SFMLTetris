@@ -19,6 +19,8 @@ private:
 	sf::Text t_ScoreText;
 	sf::Text t_LevelText;
 	sf::Text t_LinesCleared;
+	sf::Text t_NextBlock;
+	sf::Text t_HeldBlock;
 	sf::Font font;
 	sf::VertexArray Border;
 

@@ -65,7 +65,7 @@ bool Board::DoesBlockFit(Block& Tetromino)
 	return true;
 }
 
-bool Board::PushDown(bool& bLineRemoved, Block& Tetromino)
+bool Board::PushDown(bool& bLineRemoved, Block& Tetromino, bool& bLevelHold)
 {
 	Tetromino.MoveBlockDown();
 	if (this->DoesBlockFit(Tetromino) == false)
@@ -73,7 +73,7 @@ bool Board::PushDown(bool& bLineRemoved, Block& Tetromino)
 		nScore += 25; //25pts for placing a block.
 		Tetromino.MoveBlockUp();
 		this->CopyBlockToBoard(Tetromino);
-		this->RemoveLine(bLineRemoved);
+		this->RemoveLine(bLineRemoved, bLevelHold);
 		Tetromino.CreateNewBlock();
 		return false;
 	}
@@ -81,7 +81,7 @@ bool Board::PushDown(bool& bLineRemoved, Block& Tetromino)
 	return true;
 }
 
-void Board::RemoveLine(bool& bLineRemoved)
+void Board::RemoveLine(bool& bLineRemoved, bool& bLevelHold)
 {
 	int nLinesRemoved = 0;
 	int nNew = nBOARD_HEIGHT - 1;
@@ -111,19 +111,19 @@ void Board::RemoveLine(bool& bLineRemoved)
 	}
 
 	if (nLinesRemoved > 0)
-		CalcScoreIncrease(nLinesRemoved);
+		CalcScoreIncrease(nLinesRemoved, bLevelHold);
 }
 
-void Board::CalcScoreIncrease(int nLinesRemoved)
+void Board::CalcScoreIncrease(int nLinesRemoved, bool& bLevelHold)
 {
 	int base = 1;
-	for (int i = 0; i < nLinesRemoved; i++)
+	for (int i = 1; i <= nLinesRemoved; i++)
 	{
 		nLinesCleared++;
 		base *= 2;
 	}
 		
-
+	bLevelHold = false;
 	nScore += base * 100;
 }
 
