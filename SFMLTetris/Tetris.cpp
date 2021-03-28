@@ -2,7 +2,7 @@
 
 //Constructor initializes the render window and cell used for drawing shapes on screen.
 Tetris::Tetris()
-	: gameWindow(sf::VideoMode(500, 750), "Tetris"), cell(sf::Vector2f(25, 25))
+	: gameWindow(sf::VideoMode(500, 750), "Tetris"), cell(sf::Vector2f(25, 25)), nextCell(sf::Vector2f(25, 25))
 {
 }
 
@@ -127,7 +127,7 @@ void Tetris::DrawScreen()
 {
 	gameWindow.clear();
 	GameBoard.DisplayField(gameWindow, Tetromino, cell);
-	Tetromino.DrawBlock(gameWindow, cell);
+	Tetromino.DrawBlock(gameWindow, cell, nextCell);
 	RenderManager.DrawBorder(gameWindow);
 	RenderManager.DrawText(gameWindow);
 	RenderManager.DrawSprites(gameWindow);

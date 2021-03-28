@@ -2,21 +2,36 @@
 
 void Block::CreateNewBlock()
 {
-	nBlockType = std::rand() % 7;
+	if (nNextBlockType == NULL)
+	{
+		nCurrentBlockType = std::rand() % 7;
+		nNextBlockType = std::rand() % 7;
+	} else {
+		nCurrentBlockType = nNextBlockType;
+		nNextBlockType = std::rand() % 7;
+	}
 	nPosx = nBoardWidth / 2; //Middle of the game board x-axis.
 	nPosy = 0; //Board Height
 }
 
-void Block::DrawBlock(sf::RenderWindow &window, sf::RectangleShape &cell)
+void Block::DrawBlock(sf::RenderWindow &window, sf::RectangleShape &cell, sf::RectangleShape &nextCell)
 {
-	//Color of cell is set according to the current type.
-	cell.setFillColor(this->GetColor(nBlockType));
+	//Color of cells is set according to their current types.
+	cell.setFillColor(GetColor(nCurrentBlockType));
+	nextCell.setFillColor(GetColor(nNextBlockType));
 	
 	for (int y = 0; y < 4; y++) for (int x = 0; x < 4; x++)
-		if (tetrominos[nBlockType][y][x]) //If a non-zero element is found in the tetrominos array at the given coordinates
+		if (tetrominos[nCurrentBlockType][y][x]) //If a non-zero element is found in the tetrominos array at the given coordinates
 		{
 			cell.setPosition(sf::Vector2f((nPosx + x) * nCellSize, (nPosy + y) * nCellSize));
 			window.draw(cell);
+		}
+
+	for (int y = 0; y < 4; y++) for (int x = 0; x < 4; x++)
+		if (tetrominos[nNextBlockType][y][x])
+		{
+			nextCell.setPosition(sf::Vector2f((13+x)*nCellSize, (y+3)*nCellSize));
+			window.draw(nextCell);
 		}
 }
 
@@ -42,7 +57,7 @@ void Block::MoveBlockUp()
 
 int Block::GetBlockType()
 {
-	return nBlockType;
+	return nCurrentBlockType;
 }
 
 int Block::GetX()
@@ -82,7 +97,7 @@ void Block::Rotate()
 	for (int y = 0; y < 4; y++)
 		for (int x = 0; x < 4; x++)
 		{
-			if (tetrominos[nBlockType][y][x])
+			if (tetrominos[nCurrentBlockType][y][x])
 				nLength = std::max(std::max(x, y) + 1, nLength);
 		}
 
@@ -92,7 +107,7 @@ void Block::Rotate()
 		for (int x = 0; x < nLength; x++)
 		{
 			//If non-zero element in tetrominos array, copy to temp array rotated 90 degrees.
-			if (tetrominos[nBlockType][y][x])
+			if (tetrominos[nCurrentBlockType][y][x])
 				temp[nLength - 1 - x][y] = 1;
 		}
 
@@ -100,7 +115,7 @@ void Block::Rotate()
 	for (int y = 0; y < 4; y++)
 		for (int x = 0; x < 4; x++)
 		{
-			tetrominos[nBlockType][y][x] = temp[y][x];
+			tetrominos[nCurrentBlockType][y][x] = temp[y][x];
 		}
 			
 }

@@ -10,14 +10,15 @@ private:
 	int nCellSize = 25;
 	const int nBoardWidth = 10;
 	const int nBoardHeight = 20;
-	int nBlockType;	//Stores the integer code for each tetromino.
+	int nCurrentBlockType;	//Stores the integer code for each tetromino.
+	int nNextBlockType = 0;
 	int nPosx; //Current x position of block
 	int nPosy; //Current y position of block
 
 public:
 
 	void CreateNewBlock();
-	void DrawBlock(sf::RenderWindow &window, sf::RectangleShape &cell);
+	void DrawBlock(sf::RenderWindow &window, sf::RectangleShape &cell, sf::RectangleShape &nextCell);
 	void MoveBlockLeft();
 	void MoveBlockRight();
 	void MoveBlockDown();

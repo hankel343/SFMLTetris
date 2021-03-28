@@ -16,6 +16,7 @@ private:
 	Board GameBoard;
 	RenderWindow gameWindow;
 	RectangleShape cell;
+	RectangleShape nextCell;
 	Clock clock;
 	SoundManager SoundManager;
 	RenderManager RenderManager;
