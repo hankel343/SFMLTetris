@@ -13,41 +13,61 @@ void RenderManager::InitializeText(int nScore, int nLevel, int nLinesCleared)
 	t_UpText.setCharacterSize(30);
 	t_UpText.setFillColor(sf::Color::Red);
 	t_UpText.setStyle(sf::Text::Regular);
-	t_UpText.setString("Up");
-	t_UpText.setPosition(300, 550);
+	t_UpText.setString("Up:");
+	t_UpText.setPosition(300, 450);
 
-	sp_UpArrow.setPosition(400, 550);
+	sp_UpArrow.setPosition(400, 450);
 	sp_UpArrow.setScale(.15, .15);
 
 	t_LeftText.setFont(font);
 	t_LeftText.setCharacterSize(30);
 	t_LeftText.setFillColor(sf::Color::Red);
 	t_LeftText.setStyle(sf::Text::Regular);
-	t_LeftText.setString("Left");
-	t_LeftText.setPosition(300, 650);
+	t_LeftText.setString("Left:");
+	t_LeftText.setPosition(300, 550);
 
-	sp_LeftArrow.setPosition(400, 650);
+	sp_LeftArrow.setPosition(400, 550);
 	sp_LeftArrow.setScale(.15, .15);
 
 	t_DownText.setFont(font);
 	t_DownText.setCharacterSize(30);
 	t_DownText.setFillColor(sf::Color::Red);
 	t_DownText.setStyle(sf::Text::Regular);
-	t_DownText.setString("Down");
-	t_DownText.setPosition(300, 600);
+	t_DownText.setString("Down:");
+	t_DownText.setPosition(300, 500);
 
-	sp_DownArrow.setPosition(400, 600);
+	sp_DownArrow.setPosition(400, 500);
 	sp_DownArrow.setScale(.15, .15);
 
 	t_RightText.setFont(font);
 	t_RightText.setCharacterSize(30);
 	t_RightText.setFillColor(sf::Color::Red);
 	t_RightText.setStyle(sf::Text::Regular);
-	t_RightText.setString("Right");
-	t_RightText.setPosition(300, 700);
+	t_RightText.setString("Right:");
+	t_RightText.setPosition(300, 600);
 
-	sp_RightArrow.setPosition(400, 700);
+	sp_RightArrow.setPosition(400, 600);
 	sp_RightArrow.setScale(.15, .15);
+
+	t_Swap.setFont(font);
+	t_Swap.setCharacterSize(30);
+	t_Swap.setFillColor(sf::Color::Red);
+	t_Swap.setStyle(sf::Text::Regular);
+	t_Swap.setString("Swap:");
+	t_Swap.setPosition(300, 650);
+
+	sp_Swap.setPosition(400, 650);
+	sp_Swap.setScale(.15, .15);
+
+	t_Drop.setFont(font);
+	t_Drop.setCharacterSize(30);
+	t_Drop.setFillColor(sf::Color::Red);
+	t_Drop.setStyle(sf::Text::Regular);
+	t_Drop.setString("Drop:");
+	t_Drop.setPosition(300, 700);
+
+	sp_Drop.setPosition(400, 700);
+	sp_Drop.setScale(.15, .15);
 
 	t_ScoreText.setFont(font);
 	t_ScoreText.setCharacterSize(30);
@@ -123,6 +143,8 @@ void RenderManager::DrawText(sf::RenderWindow& gameWindow)
 	gameWindow.draw(t_LinesCleared);
 	gameWindow.draw(t_NextBlock);
 	gameWindow.draw(t_HeldBlock);
+	gameWindow.draw(t_Swap);
+	gameWindow.draw(t_Drop);
 }
 
 void RenderManager::DrawBorder(sf::RenderWindow& gameWindow)
@@ -151,6 +173,16 @@ void RenderManager::LoadImages()
 		std::cout << "ERROR: Failed to load Assets/Right.png" << std::endl;
 	else
 		sp_RightArrow.setTexture(tex_RightArrow);
+
+	if (!tex_Swap.loadFromFile("Assets/Swap.png"))
+		std::cout << "ERROR: Failed to load Assets/Swap.png" << std::endl;
+	else
+		sp_Swap.setTexture(tex_Swap);
+
+	if (!tex_Drop.loadFromFile("Assets/Space.png"))
+		std::cout << "ERROR: Failed to load Assets/Space.png" << std::endl;
+	else
+		sp_Drop.setTexture(tex_Drop);
 	
 }
 
@@ -160,4 +192,6 @@ void RenderManager::DrawSprites(sf::RenderWindow& gameWindow)
 	gameWindow.draw(sp_DownArrow);
 	gameWindow.draw(sp_LeftArrow);
 	gameWindow.draw(sp_RightArrow);
+	gameWindow.draw(sp_Swap);
+	gameWindow.draw(sp_Drop);
 }

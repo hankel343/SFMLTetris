@@ -21,6 +21,8 @@ private:
 	sf::Text t_LinesCleared;
 	sf::Text t_NextBlock;
 	sf::Text t_HeldBlock;
+	sf::Text t_Swap;
+	sf::Text t_Drop;
 	sf::Font font;
 	sf::VertexArray Border;
 
@@ -28,11 +30,15 @@ private:
 	sf::Texture tex_DownArrow;
 	sf::Texture tex_LeftArrow;
 	sf::Texture tex_RightArrow;
+	sf::Texture tex_Swap;
+	sf::Texture tex_Drop;
 
 	sf::Sprite sp_UpArrow;
 	sf::Sprite sp_DownArrow;
 	sf::Sprite sp_LeftArrow;
 	sf::Sprite sp_RightArrow;
+	sf::Sprite sp_Drop;
+	sf::Sprite sp_Swap;
 
 public:
 	RenderManager();
