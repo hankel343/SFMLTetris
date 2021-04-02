@@ -11,10 +11,10 @@ class Menu
 {
 private:
 	RenderWindow window;
-	Button playButton = Button("Play", { 200, 50 }, 15, sf::Color::White, sf::Color::Black);
-	Button optionsButton = Button("Options", { 200, 50 }, 15, sf::Color::White, sf::Color::Black);
-	Button scoreboardButton = Button("Score", { 200, 50 }, 15, sf::Color::White, sf::Color::Black);
-	Button quitButton = Button("Quit", { 200, 50 }, 15, sf::Color::White, sf::Color::Black);
+	Button playButton = Button("Play", { 200, 50 }, 15, sf::Color::Black, sf::Color::Red);
+	Button optionsButton = Button("Options", { 200, 50 }, 15, sf::Color::Black, sf::Color::Red);
+	Button scoreboardButton = Button("Score", { 200, 50 }, 15, sf::Color::Black, sf::Color::Red);
+	Button quitButton = Button("Quit", { 200, 50 }, 15, sf::Color::Black, sf::Color::Red);
 	Font Chunk;
 	Font MenuTextFont;
 	Text t_MenuText;

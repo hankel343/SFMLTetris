@@ -26,7 +26,7 @@ Menu::Menu()
 
 	/*Menu Text*/
 	t_MenuText.setString("Tetris");
-	t_MenuText.setFillColor(Color::Red);
+	t_MenuText.setFillColor(Color::Black);
 	t_MenuText.setFont(MenuTextFont);
 	t_MenuText.setPosition(150, 100);
 	t_MenuText.setCharacterSize(100);
@@ -58,7 +58,19 @@ void Menu::Start()
 			case Event::MouseButtonPressed:
 				ProcessClick();
 				break;
+			}
 
+			if (event.type == Event::KeyPressed)
+			{
+				switch (event.key.code)
+				{
+				case Keyboard::Escape:	window.close();
+										break;
+
+				case Keyboard::P:		Tetris game;
+										game.Start(window);
+										break;
+				}
 			}
 		}
 
@@ -73,22 +85,22 @@ void Menu::RecolorButtons()
 	if (playButton.isMouseOver(window))
 		playButton.SetButtonColor(Color::White);
 	else
-		playButton.SetButtonColor(Color::Green);
+		playButton.SetButtonColor(Color::Black);
 
 	if (optionsButton.isMouseOver(window))
 		optionsButton.SetButtonColor(Color::White);
 	else
-		optionsButton.SetButtonColor(Color::Green);
+		optionsButton.SetButtonColor(Color::Black);
 
 	if (scoreboardButton.isMouseOver(window))
 		scoreboardButton.SetButtonColor(Color::White);
 	else
-		scoreboardButton.SetButtonColor(Color::Green);
+		scoreboardButton.SetButtonColor(Color::Black);
 
 	if (quitButton.isMouseOver(window))
 		quitButton.SetButtonColor(Color::White);
 	else
-		quitButton.SetButtonColor(Color::Green);
+		quitButton.SetButtonColor(Color::Black);
 }
 
 void Menu::ProcessClick()

@@ -19,7 +19,7 @@ private:
 	RectangleShape nextCell;
 	RectangleShape heldCell;
 	Font font;
-	Button MenuButton = Button("Menu", { 100, 100 }, 15, Color::Green, Color::Black);
+	Button MenuButton = Button("Menu", { 100, 100 }, 15, Color::Red, Color::Black);
 	Clock clock;
 	SoundManager SoundManager;
 	RenderManager RenderManager;
@@ -27,6 +27,7 @@ private:
 	bool bLineRemoved = false;
 	bool bGameOver = false;
 	bool bLevelHold = false;
+	bool bPaused = false;
 	float fDifficulty = 0.5;
 	int nLevel = 0;
 
@@ -37,6 +38,7 @@ public:
 	void GameTick();
 	void CheckDifficulty();
 	void DrawScreen(RenderWindow& gameWindow);
+	void PauseMenu(RenderWindow& gameWindow, Event& gameEvent);
 };
 
 #endif TETRIS_H

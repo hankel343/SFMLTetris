@@ -78,13 +78,16 @@ void Tetris::ProcessGameEvent(RenderWindow& gameWindow)
 		//Exit game
 		case Keyboard::Escape:	bGameOver = true;
 								break;
+
+		case Keyboard::P:		PauseMenu(gameWindow, gameEvent);
+								break;
 		}
 
 	if (gameEvent.type == Event::MouseMoved)
 		if (MenuButton.isMouseOver(gameWindow))
 			MenuButton.SetButtonColor(Color::White);
 		else
-			MenuButton.SetButtonColor(Color::Green);
+			MenuButton.SetButtonColor(Color::Red);
 
 	if (gameEvent.type == Event::MouseButtonPressed)
 		if (MenuButton.isMouseOver(gameWindow))
@@ -136,4 +139,30 @@ void Tetris::DrawScreen(RenderWindow& gameWindow)
 	RenderManager.DrawSprites(gameWindow);
 	MenuButton.DrawButton(gameWindow);
 	gameWindow.display();
+}
+
+void Tetris::PauseMenu(RenderWindow& gameWindow, Event& gameEvent)
+{
+	RectangleShape Background(Vector2f(250, 500));
+	Background.setFillColor(Color::Black);
+	Background.setPosition(0, 0);
+	gameWindow.draw(Background);
+
+	Text pauseText;
+	pauseText.setFont(font);
+	pauseText.setPosition(75, 50);
+	pauseText.setString("Paused");
+	gameWindow.draw(pauseText);
+	gameWindow.display();
+
+	bPaused = true;
+	while (bPaused)
+	{
+		if (gameWindow.pollEvent(gameEvent))
+		{
+			if (gameEvent.type == Event::KeyPressed)
+				if (gameEvent.key.code == Keyboard::P)
+					bPaused = false;
+		}
+	}
 }
