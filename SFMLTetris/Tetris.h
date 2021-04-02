@@ -28,11 +28,14 @@ private:
 	bool bGameOver = false;
 	bool bLevelHold = false;
 	bool bPaused = false;
+	int nVolume = 50;
+	bool bHasSFX = true;
 	float fDifficulty = 0.5;
 	int nLevel = 0;
 
 public:
 	Tetris();
+	Tetris(int nVolume, bool bHasSFX);
 	void Start(RenderWindow& gameWindow);
 	void ProcessGameEvent(RenderWindow& gameWindow);
 	void GameTick();

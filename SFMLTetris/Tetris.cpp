@@ -9,10 +9,21 @@ Tetris::Tetris()
 	MenuButton.SetPosition({ 300, 300 });
 }
 
+Tetris::Tetris(int nVolume, bool bHasSFX)
+	:currentCell(sf::Vector2f(25, 25)), nextCell(sf::Vector2f(25, 25)), heldCell(sf::Vector2f(25, 25))
+{
+	font.loadFromFile("ChunkFive-Regular.otf");
+	MenuButton.SetFont(font);
+	MenuButton.SetPosition({ 300, 300 });
+
+	this->nVolume = nVolume;
+	this->bHasSFX = bHasSFX;
+}
+
 void Tetris::Start(RenderWindow& gameWindow)
 {
 	bGameOver = false;
-	SoundManager.PlayMusic();
+	SoundManager.PlayMusic(nVolume);
 	Tetromino.CreateNewBlock();
 	RenderManager.InitializeBorderVertexArray();
 	RenderManager.InitializeText(GameBoard.GetScore(), nLevel, GameBoard.GetLinesCleared());
@@ -30,7 +41,7 @@ void Tetris::Start(RenderWindow& gameWindow)
 		DrawScreen(gameWindow);
 	}
 
-	SoundManager.PlayGameOver();
+	SoundManager.PlayGameOver(bHasSFX);
 	SoundManager.StopMusic();
 }
 
@@ -52,24 +63,24 @@ void Tetris::ProcessGameEvent(RenderWindow& gameWindow)
 		case Keyboard::Down:	if (GameBoard.PushDown(bLineRemoved, Tetromino, bLevelHold) == false)
 								{
 									CheckDifficulty();
-									SoundManager.PlayPlaceBlock();
+									SoundManager.PlayPlaceBlock(bHasSFX);
 
 									if (bLineRemoved)
 									{
-										SoundManager.PlayLineRemoved();
+										SoundManager.PlayLineRemoved(bHasSFX);
 										bLineRemoved = false;
 									}
 								}
 								break;
 
 		case Keyboard::Up:		Tetromino.Rotate();
-								SoundManager.PlayMove();
+								SoundManager.PlayMove(bHasSFX);
 								break;
 
 		//Drop block
 		case Keyboard::Space:	while (GameBoard.PushDown(bLineRemoved, Tetromino, bLevelHold) == true);
 								CheckDifficulty();
-								SoundManager.PlayPlaceBlock();
+								SoundManager.PlayPlaceBlock(bHasSFX);
 								break;
 
 		case Keyboard::C:		Tetromino.SwapBlocks(gameWindow, currentCell);
@@ -102,7 +113,7 @@ void Tetris::GameTick()
 		prev = clock.getElapsedTime().asSeconds();
 		if (GameBoard.PushDown(bLineRemoved, Tetromino, bLevelHold) == false)
 		{
-			SoundManager.PlayPlaceBlock();
+			SoundManager.PlayPlaceBlock(bHasSFX);
 			CheckDifficulty();
 
 			if (Tetromino.GetY() == 0 && GameBoard.PushDown(bLineRemoved, Tetromino, bLevelHold) == false)
@@ -110,7 +121,7 @@ void Tetris::GameTick()
 
 			if (bLineRemoved)
 			{
-				SoundManager.PlayLineRemoved();
+				SoundManager.PlayLineRemoved(bHasSFX);
 				bLineRemoved = false;
 			}
 		}
@@ -124,7 +135,7 @@ void Tetris::CheckDifficulty()
 		nLevel++;
 		fDifficulty -= .05;
 		SoundManager.AdjustTempo();
-		SoundManager.PlayLevelUp();
+		SoundManager.PlayLevelUp(bHasSFX);
 		bLevelHold = true;
 	}
 }

@@ -37,33 +37,39 @@ SoundManager::SoundManager()
 	}
 }
 
-void SoundManager::PlayPlaceBlock()
+void SoundManager::PlayPlaceBlock(bool bHasSound)
 {
-	s_PlaceBlock.play();
+	if (bHasSound)
+		s_PlaceBlock.play();
 }
 
-void SoundManager::PlayMove()
+void SoundManager::PlayMove(bool bHasSound)
 {
-	s_Move.play();
+	if (bHasSound)
+		s_Move.play();
 }
 
-void SoundManager::PlayLineRemoved()
+void SoundManager::PlayLineRemoved(bool bHasSound)
 {
-	s_LineRemoved.play();
+	if (bHasSound)
+		s_LineRemoved.play();
 }
 
-void SoundManager::PlayGameOver()
+void SoundManager::PlayGameOver(bool bHasSound)
 {
-	s_GameOver.play();
+	if (bHasSound)
+		s_GameOver.play();
 }
 
-void SoundManager::PlayLevelUp()
+void SoundManager::PlayLevelUp(bool bHasSound)
 {
-	s_LevelUp.play();
+	if (bHasSound)
+		s_LevelUp.play();
 }
 
-void SoundManager::PlayMusic()
+void SoundManager::PlayMusic(int nVolume)
 {
+	m_Theme.setVolume(nVolume);
 	m_Theme.play();
 }
 

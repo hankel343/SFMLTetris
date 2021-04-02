@@ -11,6 +11,7 @@ class Menu
 {
 private:
 	RenderWindow window;
+	Event gameEvent;
 	Button playButton = Button("Play", { 200, 50 }, 15, sf::Color::Black, sf::Color::Red);
 	Button optionsButton = Button("Options", { 200, 50 }, 15, sf::Color::Black, sf::Color::Red);
 	Button scoreboardButton = Button("Score", { 200, 50 }, 15, sf::Color::Black, sf::Color::Red);
@@ -20,6 +21,9 @@ private:
 	Text t_MenuText;
 	Texture tex_background;
 	Sprite sp_background;
+	Music MenuMusic;
+	int nVolume = 50;
+	bool bHasSFX = true;
 
 	void RecolorButtons();
 	void ProcessClick();
@@ -27,6 +31,7 @@ private:
 public:
 	Menu();
 	void Start();
+	void OptionsMenu();
 	void DrawMenu();
 };
 

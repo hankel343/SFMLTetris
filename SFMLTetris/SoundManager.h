@@ -9,12 +9,12 @@ class SoundManager
 public:
 	SoundManager();
 
-	void PlayPlaceBlock();
-	void PlayMove();
-	void PlayLineRemoved();
-	void PlayGameOver();
-	void PlayLevelUp();
-	void PlayMusic();
+	void PlayPlaceBlock(bool bHasSound);
+	void PlayMove(bool bHasSound);
+	void PlayLineRemoved(bool bHasSound);
+	void PlayGameOver(bool bHasSound);
+	void PlayLevelUp(bool bHasSound);
+	void PlayMusic(int nVolume);
 	void StopMusic();
 	void AdjustTempo();
 
