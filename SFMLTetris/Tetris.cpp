@@ -4,6 +4,9 @@
 Tetris::Tetris()
 	:currentCell(sf::Vector2f(25, 25)), nextCell(sf::Vector2f(25, 25)), heldCell(sf::Vector2f(25, 25))
 {
+	font.loadFromFile("ChunkFive-Regular.otf");
+	MenuButton.SetFont(font);
+	MenuButton.SetPosition({ 300, 300 });
 }
 
 void Tetris::Start(RenderWindow& gameWindow)
@@ -76,6 +79,16 @@ void Tetris::ProcessGameEvent(RenderWindow& gameWindow)
 		case Keyboard::Escape:	bGameOver = true;
 								break;
 		}
+
+	if (gameEvent.type == Event::MouseMoved)
+		if (MenuButton.isMouseOver(gameWindow))
+			MenuButton.SetButtonColor(Color::White);
+		else
+			MenuButton.SetButtonColor(Color::Green);
+
+	if (gameEvent.type == Event::MouseButtonPressed)
+		if (MenuButton.isMouseOver(gameWindow))
+			bGameOver = true;
 }
 
 void Tetris::GameTick()
@@ -121,5 +134,6 @@ void Tetris::DrawScreen(RenderWindow& gameWindow)
 	RenderManager.DrawBorder(gameWindow);
 	RenderManager.DrawText(gameWindow);
 	RenderManager.DrawSprites(gameWindow);
+	MenuButton.DrawButton(gameWindow);
 	gameWindow.display();
 }

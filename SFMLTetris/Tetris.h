@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "Block.h"
 #include "Board.h"
+#include "Button.h"
 #include "SoundManager.h"
 #include "RenderManager.h"
 
@@ -17,6 +18,8 @@ private:
 	RectangleShape currentCell;
 	RectangleShape nextCell;
 	RectangleShape heldCell;
+	Font font;
+	Button MenuButton = Button("Menu", { 100, 100 }, 15, Color::Green, Color::Black);
 	Clock clock;
 	SoundManager SoundManager;
 	RenderManager RenderManager;
