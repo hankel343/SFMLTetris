@@ -8,20 +8,33 @@ Menu::Menu()
 	window.setPosition(centerWindowCoordinates);
 
 	//Loading font from working directory of the project
-	font.loadFromFile("ChunkFive-Regular.otf");
+	Chunk.loadFromFile("ChunkFive-Regular.otf");
+	MenuTextFont.loadFromFile("Tetris.ttf");
 
 	/*Setting fonts and positions for buttons*/
-	playButton.SetFont(font);
+	playButton.SetFont(Chunk);
 	playButton.SetPosition({ 220, 300 });
 
-	optionsButton.SetFont(font);
+	optionsButton.SetFont(Chunk);
 	optionsButton.SetPosition({ 220, 400 });
 
-	scoreboardButton.SetFont(font);
+	scoreboardButton.SetFont(Chunk);
 	scoreboardButton.SetPosition({ 220, 500 });
 
-	quitButton.SetFont(font);
+	quitButton.SetFont(Chunk);
 	quitButton.SetPosition({ 220, 600 });
+
+	/*Menu Text*/
+	t_MenuText.setString("Tetris");
+	t_MenuText.setFillColor(Color::Red);
+	t_MenuText.setFont(MenuTextFont);
+	t_MenuText.setPosition(150, 100);
+	t_MenuText.setCharacterSize(100);
+
+	/*Background picture*/
+	tex_background.loadFromFile("Assets/tetris.png");
+	sp_background.setTexture(tex_background);
+	sp_background.setScale({ 4, 5 });
 }
 
 void Menu::Start()
@@ -94,8 +107,10 @@ void Menu::ProcessClick()
 
 void Menu::DrawMenu()
 {
+	window.draw(sp_background);
 	playButton.DrawButton(window);
 	optionsButton.DrawButton(window);
 	scoreboardButton.DrawButton(window);
 	quitButton.DrawButton(window);
+	window.draw(t_MenuText);
 }

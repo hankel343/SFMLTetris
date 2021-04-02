@@ -15,7 +15,11 @@ private:
 	Button optionsButton = Button("Options", { 200, 50 }, 15, sf::Color::White, sf::Color::Black);
 	Button scoreboardButton = Button("Score", { 200, 50 }, 15, sf::Color::White, sf::Color::Black);
 	Button quitButton = Button("Quit", { 200, 50 }, 15, sf::Color::White, sf::Color::Black);
-	sf::Font font;
+	Font Chunk;
+	Font MenuTextFont;
+	Text t_MenuText;
+	Texture tex_background;
+	Sprite sp_background;
 
 	void RecolorButtons();
 	void ProcessClick();
