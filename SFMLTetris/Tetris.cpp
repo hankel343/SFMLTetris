@@ -2,11 +2,11 @@
 
 //Constructor initializes the render window and cell used for drawing shapes on screen.
 Tetris::Tetris()
-	: gameWindow(sf::VideoMode(500, 750), "Tetris"), currentCell(sf::Vector2f(25, 25)), nextCell(sf::Vector2f(25, 25)), heldCell(sf::Vector2f(25, 25))
+	:currentCell(sf::Vector2f(25, 25)), nextCell(sf::Vector2f(25, 25)), heldCell(sf::Vector2f(25, 25))
 {
 }
 
-void Tetris::Start()
+void Tetris::Start(RenderWindow& gameWindow)
 {
 	bGameOver = false;
 	SoundManager.PlayMusic();
@@ -19,25 +19,20 @@ void Tetris::Start()
 	{
 		GameTick();
 
-		if (bGameOver)
-			GameOver();
-
 		if (gameWindow.pollEvent(gameEvent))
-			ProcessGameEvent();
+			ProcessGameEvent(gameWindow);
 
 		RenderManager.UpdateCounters(GameBoard.GetScore(), nLevel, GameBoard.GetLinesCleared());
 
-		DrawScreen();
+		DrawScreen(gameWindow);
 	}
 
-	gameWindow.close();
+	SoundManager.PlayGameOver();
+	SoundManager.StopMusic();
 }
 
-void Tetris::ProcessGameEvent()
+void Tetris::ProcessGameEvent(RenderWindow& gameWindow)
 {
-	if (gameEvent.type == Event::Closed)
-		gameWindow.close();
-
 	if (gameEvent.type == Event::KeyPressed)
 		switch (gameEvent.key.code)
 		{
@@ -91,12 +86,11 @@ void Tetris::GameTick()
 		prev = clock.getElapsedTime().asSeconds();
 		if (GameBoard.PushDown(bLineRemoved, Tetromino, bLevelHold) == false)
 		{
+			SoundManager.PlayPlaceBlock();
 			CheckDifficulty();
 
 			if (Tetromino.GetY() == 0 && GameBoard.PushDown(bLineRemoved, Tetromino, bLevelHold) == false)
 				bGameOver = true;
-
-			SoundManager.PlayPlaceBlock();
 
 			if (bLineRemoved)
 			{
@@ -105,16 +99,6 @@ void Tetris::GameTick()
 			}
 		}
 	}
-}
-
-void Tetris::GameOver()
-{
-	std::cout << "Game over!!!\n";
-	SoundManager.StopMusic();
-	SoundManager.PlayGameOver();
-	std::cout << "Press any key to continue.\n";
-	std::cin.get();
-	gameWindow.close();
 }
 
 void Tetris::CheckDifficulty()
@@ -129,7 +113,7 @@ void Tetris::CheckDifficulty()
 	}
 }
 
-void Tetris::DrawScreen()
+void Tetris::DrawScreen(RenderWindow& gameWindow)
 {
 	gameWindow.clear();
 	GameBoard.DisplayField(gameWindow, Tetromino, currentCell);

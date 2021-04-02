@@ -14,7 +14,6 @@ class Tetris
 private:
 	Block Tetromino;
 	Board GameBoard;
-	RenderWindow gameWindow;
 	RectangleShape currentCell;
 	RectangleShape nextCell;
 	RectangleShape heldCell;
@@ -30,12 +29,11 @@ private:
 
 public:
 	Tetris();
-	void Start();
-	void ProcessGameEvent();
+	void Start(RenderWindow& gameWindow);
+	void ProcessGameEvent(RenderWindow& gameWindow);
 	void GameTick();
-	void GameOver();
 	void CheckDifficulty();
-	void DrawScreen();
+	void DrawScreen(RenderWindow& gameWindow);
 };
 
 #endif TETRIS_H

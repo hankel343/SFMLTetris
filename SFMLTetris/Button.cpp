@@ -36,8 +36,8 @@ void Button::SetPosition(sf::Vector2f position)
 
 void Button::DrawButton(sf::RenderWindow& window)
 {
-	window.draw(t_ButtonText);
 	window.draw(button);
+	window.draw(t_ButtonText);
 }
 
 bool Button::isMouseOver(sf::RenderWindow& window)
