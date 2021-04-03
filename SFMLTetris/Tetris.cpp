@@ -7,6 +7,8 @@ Tetris::Tetris()
 	font.loadFromFile("ChunkFive-Regular.otf");
 	MenuButton.SetFont(font);
 	MenuButton.SetPosition({ 300, 300 });
+
+	outFile.open("scores.txt", ios::app);
 }
 
 Tetris::Tetris(int nVolume, bool bHasSFX)
@@ -18,6 +20,8 @@ Tetris::Tetris(int nVolume, bool bHasSFX)
 
 	this->nVolume = nVolume;
 	this->bHasSFX = bHasSFX;
+
+	outFile.open("scores.txt", ios::app);
 }
 
 void Tetris::Start(RenderWindow& gameWindow)
@@ -210,6 +214,9 @@ void Tetris::GameOverScreen(RenderWindow& gameWindow, Board& gameBoard)
 	PromptText.setString("Enter your name: ");
 	gameWindow.draw(PromptText);
 
+	ScoreTextBox.SetFont(font);
+	ScoreTextBox.SetPosition({ 400, 500 });
+	ScoreTextBox.SetLimit(true, 3);
 
 	bool bEnteredScore = false;
 
@@ -217,14 +224,12 @@ void Tetris::GameOverScreen(RenderWindow& gameWindow, Board& gameBoard)
 	{
 		if (gameWindow.pollEvent(gameEvent))
 		{
+			if (gameEvent.type == Event::TextEntered)
+				ScoreTextBox.TypedOn(gameEvent);
+
 			if (gameEvent.type == Event::KeyPressed)
-			{
-				switch (gameEvent.key.code)
-				{
-				case Keyboard::Enter:	bEnteredScore = true;
-										break;
-				}
-			}
+				if (gameEvent.key.code == Keyboard::Enter)
+					bEnteredScore = true;
 		}
 
 		gameWindow.clear();
@@ -232,10 +237,20 @@ void Tetris::GameOverScreen(RenderWindow& gameWindow, Board& gameBoard)
 		gameWindow.draw(PromptText);
 		gameWindow.draw(ScoreText);
 		gameWindow.draw(NumericalScore);
+		ScoreTextBox.DrawTo(gameWindow);
 		gameWindow.display();
 	}
-	
 
-	
+	/*Writing score to score file*/
+	if (outFile)
+		cout << "Output file opened succesfully.\n";
+	else
+		cout << "Output file failed to open.\n";
+	string strScoreEntry = ScoreTextBox.GetText() + "		" + to_string(gameBoard.GetScore()) + "\n";
+	outFile << strScoreEntry;
+}
 
+Tetris::~Tetris()
+{
+	outFile.close();
 }

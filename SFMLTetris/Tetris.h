@@ -6,7 +6,9 @@
 #include "Button.h"
 #include "SoundManager.h"
 #include "RenderManager.h"
+#include "TextBox.h"
 #include <fstream>
+#include <iostream>
 
 using namespace sf;
 using namespace std;
@@ -16,6 +18,7 @@ using namespace std;
 class Tetris
 {
 private:
+	ofstream outFile;
 	Block Tetromino;
 	Board GameBoard;
 	RectangleShape currentCell;
@@ -23,6 +26,7 @@ private:
 	RectangleShape heldCell;
 	Font font;
 	Button MenuButton = Button("Menu", { 100, 100 }, 15, Color::Red, Color::Black);
+	TextBox ScoreTextBox = TextBox(15, Color::White, true);
 	Clock clock;
 	SoundManager SoundManager;
 	RenderManager RenderManager;
@@ -39,6 +43,7 @@ private:
 public:
 	Tetris();
 	Tetris(int nVolume, bool bHasSFX);
+	~Tetris();
 
 	void Start(RenderWindow& gameWindow);
 	void ProcessGameEvent(RenderWindow& gameWindow);

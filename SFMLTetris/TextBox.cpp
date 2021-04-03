@@ -30,7 +30,7 @@ void TextBox::SetLimit(bool ToF)
 void TextBox::SetLimit(bool ToF, int nLimit)
 {
 	bHasLimit = ToF;
-	nLimit = nLimit - 1;
+	this->nLimit = nLimit - 1;
 }
 
 void TextBox::SetSelected(bool bSelected)
