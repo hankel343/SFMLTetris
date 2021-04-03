@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "Button.h"
 #include "Tetris.h"
+#include "ScoreBoard.h"
 
 using namespace sf;
 
@@ -24,6 +25,7 @@ private:
 	Music MenuMusic;
 	int nVolume = 50;
 	bool bHasSFX = true;
+	ScoreBoard TetrisScoreBoard;
 
 	void RecolorButtons();
 	void ProcessClick();

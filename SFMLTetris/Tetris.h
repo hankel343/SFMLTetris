@@ -6,9 +6,12 @@
 #include "Button.h"
 #include "SoundManager.h"
 #include "RenderManager.h"
+#include <fstream>
 
 using namespace sf;
 using namespace std;
+
+
 
 class Tetris
 {
@@ -36,12 +39,14 @@ private:
 public:
 	Tetris();
 	Tetris(int nVolume, bool bHasSFX);
+
 	void Start(RenderWindow& gameWindow);
 	void ProcessGameEvent(RenderWindow& gameWindow);
 	void GameTick();
 	void CheckDifficulty();
 	void DrawScreen(RenderWindow& gameWindow);
 	void PauseMenu(RenderWindow& gameWindow, Event& gameEvent);
+	void GameOverScreen(RenderWindow& gameWindow, Board& GameBoard);
 };
 
 #endif TETRIS_H

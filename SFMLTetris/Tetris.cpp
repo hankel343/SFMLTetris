@@ -43,6 +43,9 @@ void Tetris::Start(RenderWindow& gameWindow)
 
 	SoundManager.PlayGameOver(bHasSFX);
 	SoundManager.StopMusic();
+
+	gameWindow.clear();
+	GameOverScreen(gameWindow, GameBoard);
 }
 
 void Tetris::ProcessGameEvent(RenderWindow& gameWindow)
@@ -176,4 +179,63 @@ void Tetris::PauseMenu(RenderWindow& gameWindow, Event& gameEvent)
 					bPaused = false;
 		}
 	}
+}
+
+void Tetris::GameOverScreen(RenderWindow& gameWindow, Board& gameBoard)
+{
+
+	Text GameOverText;
+	GameOverText.setFont(font);
+	GameOverText.setFillColor(Color::Red);
+	GameOverText.setPosition({ 220, 300 });
+	GameOverText.setString("Game Over!!!");
+	gameWindow.draw(GameOverText);
+
+	Text ScoreText;
+	ScoreText.setFont(font);
+	ScoreText.setFillColor(Color::Red);
+	ScoreText.setPosition({ 100, 350 });
+	ScoreText.setString("Your final score was: ");
+
+	Text NumericalScore;
+	NumericalScore.setFont(font);
+	NumericalScore.setFillColor(Color::White);
+	NumericalScore.setPosition({ 450, 350 });
+	NumericalScore.setString(to_string(gameBoard.GetScore()));
+
+	Text PromptText;
+	PromptText.setFont(font);
+	PromptText.setFillColor(Color::Red);
+	PromptText.setPosition({ 100, 400 });
+	PromptText.setString("Enter your name: ");
+	gameWindow.draw(PromptText);
+
+
+	bool bEnteredScore = false;
+
+	while (!bEnteredScore)
+	{
+		if (gameWindow.pollEvent(gameEvent))
+		{
+			if (gameEvent.type == Event::KeyPressed)
+			{
+				switch (gameEvent.key.code)
+				{
+				case Keyboard::Enter:	bEnteredScore = true;
+										break;
+				}
+			}
+		}
+
+		gameWindow.clear();
+		gameWindow.draw(GameOverText);
+		gameWindow.draw(PromptText);
+		gameWindow.draw(ScoreText);
+		gameWindow.draw(NumericalScore);
+		gameWindow.display();
+	}
+	
+
+	
+
 }
