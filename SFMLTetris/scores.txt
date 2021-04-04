@@ -1,5 +1,11 @@
-as		200
-asd		0
-asd		0
-asd		0
-HAN		200
+han		12750
+ooo		0
+kad		475
+Yet		6475
+asd		250
+upe		7025
+hjk		0
+try		750
+qwe		850
+poq		700
+cvs		11350

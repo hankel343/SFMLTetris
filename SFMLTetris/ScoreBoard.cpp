@@ -40,6 +40,8 @@ void ScoreBoard::ReadScoreFile()
 		pScores[i].nScore = ConvertStringToInt(strScore);
 	}
 	inFile.close();
+
+	SortScores();
 }
 
 int ScoreBoard::ConvertStringToInt(string strScore)
@@ -60,6 +62,29 @@ int ScoreBoard::ConvertStringToInt(string strScore)
 	}
 
 	return nIntValue;
+}
+
+void ScoreBoard::SortScores()
+{
+	int nIndexOfMin = 0;
+	for (int nCurrent = 0; nCurrent < nNumberOfEntries - 1; nCurrent++)
+	{
+		for (int j = nCurrent + 1; j < nNumberOfEntries; j++)
+		{
+			if (pScores[j].nScore < pScores[nIndexOfMin].nScore)
+				nIndexOfMin = j;
+		}
+
+		if (pScores[nCurrent].nScore > pScores[nIndexOfMin].nScore)
+			Swap(pScores[nCurrent], pScores[nIndexOfMin]);
+	}
+}
+
+void ScoreBoard::Swap(ScoreEntry& item1, ScoreEntry& item2)
+{
+	struct ScoreEntry TempStruct = item1;
+	item1 = item2;
+	item2 = TempStruct;
 }
 
 ScoreBoard::~ScoreBoard()
