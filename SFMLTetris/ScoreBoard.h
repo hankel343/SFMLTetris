@@ -18,7 +18,6 @@ class ScoreBoard
 private:
 	ifstream inFile;
 	unsigned int nNumberOfEntries = 0;
-	struct ScoreEntry* pScores = nullptr;
 
 	inline void Swap(ScoreEntry& item1, ScoreEntry& item2);
 
@@ -29,6 +28,8 @@ public:
 	void ReadScoreFile();
 	int ConvertStringToInt(string strScore);
 	void SortScores();
+
+	struct ScoreEntry* pScores = nullptr;
 };
 
 #endif SCOREBOARD_H

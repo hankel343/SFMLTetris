@@ -306,12 +306,21 @@ void Menu::DisplayLeaderBoard()
 	TetrisScoreBoard.ReadScoreFile();
 
 	//Screen coords for printing ten scores.
-	int nXCoord = 110;
-	int nYCoord = 320;
+	int nXCoord = 150;
+	int nYCoord = 325;
 
-	for (int i = 0; i < 10; i++)
+	Text EntryText[10];
+
+	for (int i = 0; i < 10; i++, nYCoord+=35)
 	{
-		Text entry;
+		string text = TetrisScoreBoard.pScores[i].strEntryName;
+		text += "   " + to_string(TetrisScoreBoard.pScores[i].nScore);
+
+		EntryText[i].setCharacterSize(25);
+		EntryText[i].setFillColor(Color::Red);
+		EntryText[i].setPosition({ float(nXCoord), float(nYCoord) });
+		EntryText[i].setFont(Chunk);
+		EntryText[i].setString(text);
 	}
 
 	/*Visual change in menus:*/
@@ -349,6 +358,8 @@ void Menu::DisplayLeaderBoard()
 		}
 
 		window.draw(LeaderBoardBackGround);
+		for (int i = 0; i < 10; i++)
+			window.draw(EntryText[i]);
 		window.draw(ScoreBoardTitle);
 		window.draw(Footer);
 		window.display();

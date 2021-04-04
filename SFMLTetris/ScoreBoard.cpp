@@ -66,17 +66,18 @@ int ScoreBoard::ConvertStringToInt(string strScore)
 
 void ScoreBoard::SortScores()
 {
-	int nIndexOfMin = 0;
+	int nIndexOfMax = 0;
 	for (int nCurrent = 0; nCurrent < nNumberOfEntries - 1; nCurrent++)
 	{
+		nIndexOfMax = nCurrent;
 		for (int j = nCurrent + 1; j < nNumberOfEntries; j++)
 		{
-			if (pScores[j].nScore < pScores[nIndexOfMin].nScore)
-				nIndexOfMin = j;
+			if (pScores[j].nScore > pScores[nIndexOfMax].nScore)
+				nIndexOfMax = j;
 		}
 
-		if (pScores[nCurrent].nScore > pScores[nIndexOfMin].nScore)
-			Swap(pScores[nCurrent], pScores[nIndexOfMin]);
+		if (pScores[nCurrent].nScore < pScores[nIndexOfMax].nScore)
+			Swap(pScores[nCurrent], pScores[nIndexOfMax]);
 	}
 }
 
