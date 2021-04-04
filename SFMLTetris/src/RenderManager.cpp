@@ -4,7 +4,7 @@ RenderManager::RenderManager()
 	:Border(sf::LineStrip, 4)
 {
 	/*Initializing text attributes*/
-	font.loadFromFile("ChunkFive-Regular.otf");
+	font.loadFromFile("Assets/fonts/ChunkFive-Regular.otf");
 }
 
 void RenderManager::InitializeText(int nScore, int nLevel, int nLinesCleared)
@@ -154,32 +154,32 @@ void RenderManager::DrawBorder(sf::RenderWindow& gameWindow)
 
 void RenderManager::LoadImages()
 {
-	if (!tex_UpArrow.loadFromFile("Assets/Up.png"))
+	if (!tex_UpArrow.loadFromFile("Assets/images/Up.png"))
 		std::cout << "ERROR: Failed to load Assets/Up.png" << std::endl;
 	else
 		sp_UpArrow.setTexture(tex_UpArrow);
 
-	if (!tex_DownArrow.loadFromFile("Assets/Down.png"))
+	if (!tex_DownArrow.loadFromFile("Assets/images/Down.png"))
 		std::cout << "ERROR: Failed to load Assets/Down.png" << std::endl;
 	else
 		sp_DownArrow.setTexture(tex_DownArrow);
 
-	if (!tex_LeftArrow.loadFromFile("Assets/Left.png"))
+	if (!tex_LeftArrow.loadFromFile("Assets/images/Left.png"))
 		std::cout << "ERROR: Failed to load Assets/Left.png" << std::endl;
 	else
 		sp_LeftArrow.setTexture(tex_LeftArrow);
 
-	if (!tex_RightArrow.loadFromFile("Assets/Right.png"))
+	if (!tex_RightArrow.loadFromFile("Assets/images/Right.png"))
 		std::cout << "ERROR: Failed to load Assets/Right.png" << std::endl;
 	else
 		sp_RightArrow.setTexture(tex_RightArrow);
 
-	if (!tex_Swap.loadFromFile("Assets/Swap.png"))
+	if (!tex_Swap.loadFromFile("Assets/images/Swap.png"))
 		std::cout << "ERROR: Failed to load Assets/Swap.png" << std::endl;
 	else
 		sp_Swap.setTexture(tex_Swap);
 
-	if (!tex_Drop.loadFromFile("Assets/Space.png"))
+	if (!tex_Drop.loadFromFile("Assets/images/Space.png"))
 		std::cout << "ERROR: Failed to load Assets/Space.png" << std::endl;
 	else
 		sp_Drop.setTexture(tex_Drop);

@@ -4,7 +4,7 @@
 Tetris::Tetris()
 	:currentCell(sf::Vector2f(25, 25)), nextCell(sf::Vector2f(25, 25)), heldCell(sf::Vector2f(25, 25))
 {
-	font.loadFromFile("ChunkFive-Regular.otf");
+	font.loadFromFile("Assets/fonts/ChunkFive-Regular.otf");
 	MenuButton.SetFont(font);
 	MenuButton.SetPosition({ 300, 300 });
 
@@ -14,7 +14,7 @@ Tetris::Tetris()
 Tetris::Tetris(int nVolume, bool bHasSFX)
 	:currentCell(sf::Vector2f(25, 25)), nextCell(sf::Vector2f(25, 25)), heldCell(sf::Vector2f(25, 25))
 {
-	font.loadFromFile("ChunkFive-Regular.otf");
+	font.loadFromFile("Assets/fonts/ChunkFive-Regular.otf");
 	MenuButton.SetFont(font);
 	MenuButton.SetPosition({ 300, 300 });
 

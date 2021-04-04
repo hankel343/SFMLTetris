@@ -8,8 +8,8 @@ Menu::Menu()
 	window.setPosition(centerWindowCoordinates);
 
 	//Loading font from working directory of the project
-	Chunk.loadFromFile("ChunkFive-Regular.otf");
-	MenuTextFont.loadFromFile("Tetris.ttf");
+	Chunk.loadFromFile("Assets/fonts/ChunkFive-Regular.otf");
+	MenuTextFont.loadFromFile("Assets/fonts/Tetris.ttf");
 
 	/*Setting fonts and positions for buttons*/
 	playButton.SetFont(Chunk);
@@ -32,12 +32,12 @@ Menu::Menu()
 	t_MenuText.setCharacterSize(100);
 
 	/*Background picture*/
-	tex_background.loadFromFile("Assets/tetris.png");
+	tex_background.loadFromFile("Assets/images/tetris.png");
 	sp_background.setTexture(tex_background);
 	sp_background.setScale({ 4, 5 });
 
 	/*Menu music*/
-	MenuMusic.openFromFile("music_menu.ogg");
+	MenuMusic.openFromFile("Assets/sounds/music_menu.ogg");
 	MenuMusic.setVolume(nVolume);
 	MenuMusic.setLoop(true);
 }
