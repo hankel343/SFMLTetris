@@ -1,0 +1,5 @@
+as		200
+asd		0
+asd		0
+asd		0
+HAN		200

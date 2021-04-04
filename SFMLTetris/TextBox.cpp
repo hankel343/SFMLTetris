@@ -102,7 +102,7 @@ void TextBox::DeletePrevChar()
 	string t = text.str();
 	string newT = "";
 
-	for (int i = 0; i < t.length(); i++)
+	for (int i = 0; i < t.length()-1; i++)
 	{
 		newT += t[i];
 	}

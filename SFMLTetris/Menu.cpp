@@ -123,7 +123,7 @@ void Menu::ProcessClick()
 	} else if (optionsButton.isMouseOver(window)) {
 		OptionsMenu();
 	} else if (scoreboardButton.isMouseOver(window)) {
-	
+		DisplayLeaderBoard();
 	} else if (quitButton.isMouseOver(window)) {
 		window.close();
 	}
@@ -297,6 +297,60 @@ void Menu::OptionsMenu()
 		window.draw(VolumeCounter);
 		window.draw(SfXText);
 		window.draw(ToFtext);
+		window.display();
+	}
+}
+
+void Menu::DisplayLeaderBoard()
+{
+	TetrisScoreBoard.ReadScoreFile();
+
+	//Screen coords for printing ten scores.
+	int nXCoord = 110;
+	int nYCoord = 320;
+
+	for (int i = 0; i < 10; i++)
+	{
+		Text entry;
+	}
+
+	/*Visual change in menus:*/
+	RectangleShape LeaderBoardBackGround(Vector2f(350, 400));
+	LeaderBoardBackGround.setFillColor(Color::Black);
+	LeaderBoardBackGround.setPosition(150, 300);
+
+	Text ScoreBoardTitle;
+	ScoreBoardTitle.setCharacterSize(25);
+	ScoreBoardTitle.setFillColor(Color::Red);
+	ScoreBoardTitle.setPosition({ 220, 300 });
+	ScoreBoardTitle.setString("Top Ten Scores:");
+	ScoreBoardTitle.setFont(Chunk);
+
+	Text Footer;
+	Footer.setCharacterSize(25);
+	Footer.setFillColor(Color::Red);
+	Footer.setPosition({ 150, 670 });
+	Footer.setString("Press 'ESC' to go back.");
+	Footer.setFont(Chunk);
+
+	bool bIsOpen = true;
+	while (bIsOpen)
+	{
+		if (window.pollEvent(gameEvent))
+		{
+			if (gameEvent.type == Event::KeyPressed)
+			{
+				switch (gameEvent.key.code)
+				{
+				case Keyboard::Escape:	bIsOpen = false;
+										break;
+				}
+			}
+		}
+
+		window.draw(LeaderBoardBackGround);
+		window.draw(ScoreBoardTitle);
+		window.draw(Footer);
 		window.display();
 	}
 }

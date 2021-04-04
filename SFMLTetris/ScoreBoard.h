@@ -9,26 +9,23 @@ using namespace std;
 
 struct ScoreEntry
 {
-	string strName;
-	string strScore;
-	ScoreEntry* pNext;
+	string strEntryName = "";
+	int nScore = 0;
 };
 
 class ScoreBoard
 {
 private:
-	ScoreEntry* pScores = nullptr;
-	ScoreEntry* pCurrentScore = nullptr;
-	ofstream outFile;
 	ifstream inFile;
+	unsigned int nNumberOfEntries = 0;
+	struct ScoreEntry* pScores = nullptr;
 
 public:
 	ScoreBoard();
 	~ScoreBoard();
 
 	void ReadScoreFile();
-
-
+	int ConvertStringToInt(string strScore);
 };
 
 #endif SCOREBOARD_H

@@ -34,6 +34,7 @@ public:
 	Menu();
 	void Start();
 	void OptionsMenu();
+	void DisplayLeaderBoard();
 	void DrawMenu();
 };
 

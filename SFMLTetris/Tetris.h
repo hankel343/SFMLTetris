@@ -26,7 +26,7 @@ private:
 	RectangleShape heldCell;
 	Font font;
 	Button MenuButton = Button("Menu", { 100, 100 }, 15, Color::Red, Color::Black);
-	TextBox ScoreTextBox = TextBox(15, Color::White, true);
+	TextBox ScoreTextBox = TextBox(30, Color::White, true);
 	Clock clock;
 	SoundManager SoundManager;
 	RenderManager RenderManager;

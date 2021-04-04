@@ -215,7 +215,7 @@ void Tetris::GameOverScreen(RenderWindow& gameWindow, Board& gameBoard)
 	gameWindow.draw(PromptText);
 
 	ScoreTextBox.SetFont(font);
-	ScoreTextBox.SetPosition({ 400, 500 });
+	ScoreTextBox.SetPosition({ 375, 400 });
 	ScoreTextBox.SetLimit(true, 3);
 
 	bool bEnteredScore = false;
@@ -241,7 +241,7 @@ void Tetris::GameOverScreen(RenderWindow& gameWindow, Board& gameBoard)
 		gameWindow.display();
 	}
 
-	/*Writing score to score file*/
+	/*Writing score and name to score file*/
 	if (outFile)
 		cout << "Output file opened succesfully.\n";
 	else
