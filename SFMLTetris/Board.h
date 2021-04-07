@@ -47,7 +47,7 @@ public:
 
 	void CalcScoreIncrease(int nLinesRemoved, bool& bLevelHold);
 	//Pre: The relevant parameter ids have been initailized.
-	//Post: The appropriate number of points are credited to the player.
+	//Post: The appropriate number of points are credited to the player by recording lines removed.
 
 	int GetScore();
 	//Pre: None
