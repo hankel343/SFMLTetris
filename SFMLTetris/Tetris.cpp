@@ -117,6 +117,7 @@ void Tetris::GameTick()
 	static float prev = clock.getElapsedTime().asSeconds();
 	if (clock.getElapsedTime().asSeconds() - prev >= fDifficulty)
 	{
+		clock.restart();
 		prev = clock.getElapsedTime().asSeconds();
 		if (GameBoard.PushDown(bLineRemoved, Tetromino, bLevelHold) == false)
 		{

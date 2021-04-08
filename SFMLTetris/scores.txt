@@ -22,3 +22,7 @@ ytr		0
 qwe		0
 as		875
 asd		3725
+asd		100
+asx		50
+asd		125
+hnk		35250
