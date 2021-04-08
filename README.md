@@ -1,5 +1,5 @@
 # SFMLTetris
-![Game Play][https://user-images.githubusercontent.com/57358008/114106414-4f6c2000-9894-11eb-8692-82980e32b174.PNG]
+![Game Play][https://user-images.githubusercontent.com/57358008/114106414-4f6c2000-9894-11eb-8692-82980e32b174.PNG?raw=true]
 
 
 ## Installation
